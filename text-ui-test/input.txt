@@ -1,0 +1,10 @@
+todo be happy
+todo take a nap
+deadline proposal /by Sunday
+event project meeting /from Mon 9pm /to 11pm
+list
+mark 1
+unmark 1
+mark 3
+list
+bye
