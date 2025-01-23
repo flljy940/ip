@@ -11,7 +11,7 @@ public class TaskList {
 
     @Override
     public String toString() {
-        String res = "";
+        String res = "Here are the tasks in your list:\n";
 
         for (int i = 0; i < this.list.size(); i++) {
             res += String.format(
