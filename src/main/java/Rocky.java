@@ -21,7 +21,7 @@ public class Rocky {
     private static final String introduction = "Hello, I'm Rocky\n" +
                                                 "What can I do for you?";
 
-    private static TaskList tasks = new TaskList();
+    private static final TaskList tasks = new TaskList();
 
     private static void say(String message) {
         // Color theme for Rocky
