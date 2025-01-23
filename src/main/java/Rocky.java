@@ -41,12 +41,24 @@ public class Rocky {
 
         while (true) {
             String action = input.nextLine();
-            switch (action) {
+            String[] command = action.split(" ");
+
+            switch (command[0]) {
                 case "bye":
                     say("Bye. Hope to see you again soon!");
                     System.exit(0);
                 case "list":
                     say(tasks.toString());
+                    break;
+                case "mark":
+                    int mark_idx = Integer.parseInt(command[1]) - 1;
+                    tasks.markTask(mark_idx);
+                    say("Nice! I've marked this mark as done:\n" + tasks.getTask(mark_idx).toString());
+                    break;
+                case "unmark":
+                    int unmark_idx = Integer.parseInt(command[1]) - 1;
+                    tasks.unmarkTask(unmark_idx);
+                    say("OK, I've marked this task as not done yet:\n" + tasks.getTask(unmark_idx).toString());
                     break;
                 default:
                     say("added: " + action);

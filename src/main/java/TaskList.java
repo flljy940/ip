@@ -9,6 +9,18 @@ public class TaskList {
         this.list.add(task);
     }
 
+    public void markTask(int index) {
+        list.get(index).markAsDone();
+    }
+
+    public void unmarkTask(int index) {
+        list.get(index).unmarkAsDone();
+    }
+
+    public Task getTask(int index) {
+        return this.list.get(index);
+    }
+
     @Override
     public String toString() {
         String res = "Here are the tasks in your list:\n";
