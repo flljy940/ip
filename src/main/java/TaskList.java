@@ -25,6 +25,10 @@ public class TaskList {
         return this.list.size();
     }
 
+    public boolean isEmpty() {
+        return this.list.isEmpty();
+    }
+
     @Override
     public String toString() {
         String res = "Here are the tasks in your list:\n";
