@@ -99,6 +99,23 @@ public class Rocky {
                 }
                 break;
 
+            case "delete":
+                try {
+                    int dlt_idx = Integer.parseInt(command[1]) - 1;
+                    tasks.deleteTask(dlt_idx);
+                    say("Noted. I've removed this task from the list:\n" + tasks.getTask(dlt_idx).toString()
+                                    + "\nNow you have " + tasks.size() + " tasks in your list", Color.green);
+                } catch (NumberFormatException e) {
+                    throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
+                } catch (IndexOutOfBoundsException e) {
+                    throw new RockyException(tasks.isEmpty()
+                            ? "List is empty"
+                            : (tasks.size() == 1
+                            ? "There is only one task. Please choose task 1 :)"
+                            : String.format("Please choose tasks from 1 to %d :))", tasks.size())));
+                }
+                break;
+
             case "todo":
                 if (details.isEmpty()) {
                     throw new RockyException("I don't know what u are trying to do. Add some task!");
