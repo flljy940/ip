@@ -21,6 +21,10 @@ public class TaskList {
         return this.list.get(index);
     }
 
+    public int size() {
+        return this.list.size();
+    }
+
     @Override
     public String toString() {
         String res = "Here are the tasks in your list:\n";

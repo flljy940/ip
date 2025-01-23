@@ -35,13 +35,20 @@ public class Rocky {
         System.out.println(Color.none);
     }
 
+    private static void logNewTask(Task task) {
+        say("Got it. I've added this task:\n" +
+                task.toString() +
+                "\nNow you have " + tasks.size() + " tasks in the list."
+        );
+    }
+
     public static void main(String[] args) {
         System.out.println("Hello from\n" + logo);
         say(introduction);
 
         while (true) {
             String action = input.nextLine();
-            String[] command = action.split(" ");
+            String[] command = action.split(" ", 2);
 
             switch (command[0]) {
                 case "bye":
@@ -60,9 +67,25 @@ public class Rocky {
                     tasks.unmarkTask(unmark_idx);
                     say("OK, I've marked this task as not done yet:\n" + tasks.getTask(unmark_idx).toString());
                     break;
+                case "todo":
+                    Todo todo = new Todo(command[1]);
+                    tasks.addTask(todo);
+                    logNewTask(todo);
+                    break;
+                case "deadline":
+                    String[] parts = command[1].split(" /by ", 2);
+                    Deadline deadline = new Deadline(parts[0], parts[1]);
+                    tasks.addTask(deadline);
+                    logNewTask(deadline);
+                    break;
+                case "event":
+                    String[] pt = command[1].split(" /from | /to ", 3);
+                    Event event = new Event(pt[0], pt[1], pt[2]);
+                    tasks.addTask(event);
+                    logNewTask(event);
+                    break;
                 default:
-                    say("added: " + action);
-                    tasks.addTask(new Task(action));
+                    System.out.println("Unknown command");
             }
         }
     }
