@@ -80,20 +80,27 @@ public class Rocky {
      * @throws RockyException General exception for invalid user command: invalid command, invalid arguments, etc.
      */
     private static void handleAction(String action) throws RockyException {
-        String[] command = action.split(" ", 2);
-        String instruction = command[0];
-        String details = command.length > 1 ? command[1] : "";
+        String[] commandParts = action.split(" ", 2);
+        String commandName = commandParts[0].toUpperCase();
+        String details = commandParts.length > 1 ? commandParts[1] : "";
 
-        switch (instruction) {
-            case "bye":
+        Command command;
+        try {
+            command = Command.valueOf(commandName); // Convert string to enum
+        } catch (IllegalArgumentException e) {
+            throw new RockyException(String.format("Invalid command: %s", commandName));
+        }
+
+        switch (command) {
+            case BYE:
                 say("Bye. Hope to see you again soon!", Color.GREEN);
                 System.exit(0);
 
-            case "list":
+            case LIST:
                 say(tasks.toString(), Color.GREEN);
                 break;
 
-            case "mark":
+            case MARK:
                 int mark_idx = parseIndex(details);
                 tasks.markTask(mark_idx);
                 say("Nice! I've marked this mark as done:\n"
@@ -101,7 +108,7 @@ public class Rocky {
                         Color.GREEN);
                 break;
 
-            case "unmark":
+            case UNMARK:
                 int unmark_idx = parseIndex(details);
                 tasks.unmarkTask(unmark_idx);
                 say("OK, I've marked this task as not done yet:\n"
@@ -109,16 +116,16 @@ public class Rocky {
                         Color.GREEN);
                 break;
 
-            case "delete":
+            case DELETE:
                 int dlt_idx = parseIndex(details);
-                tasks.deleteTask(dlt_idx);
                 say("Noted. I've removed this task from the list:\n"
                         + tasks.getTask(dlt_idx).toString()
                         + "\nNow you have " + tasks.size() + " tasks in your list",
                         Color.GREEN);
+                tasks.deleteTask(dlt_idx);
                 break;
 
-            case "todo":
+            case TODO:
                 if (details.isEmpty()) {
                     throw new RockyException("I don't know what u are trying to do. Add some todo!");
                 }
@@ -127,11 +134,11 @@ public class Rocky {
                 logNewTask(todo);
                 break;
 
-            case "deadline":
+            case DEADLINE:
                 if (details.isEmpty()) {
                     throw new RockyException("I don't know what u are trying to do. Add some task!");
                 }
-                String[] parts = command[1].split(" /by ", 2);
+                String[] parts = details.split(" /by ", 2);
                 if (parts.length < 2) {
                     throw new RockyException("You must add the task and the due date with /by.");
                 }
@@ -140,11 +147,11 @@ public class Rocky {
                 logNewTask(deadline);
                 break;
 
-            case "event":
+            case EVENT:
                 if (details.isEmpty()) {
                     throw new RockyException("I don't know what u are trying to do. Add some event!");
                 }
-                String[] pt = command[1].split(" /from ", 2);
+                String[] pt = details.split(" /from ", 2);
                 if (pt.length < 2 || !pt[1].contains(" /to ")) {
                     throw new RockyException("An event must have '/from' and '/to' clauses.");
                 }
