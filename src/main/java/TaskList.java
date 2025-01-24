@@ -34,6 +34,10 @@ public class TaskList {
 
     @Override
     public String toString() {
+        if (this.list.isEmpty()) {
+            return "Your task list is empty. Please add at least one task.";
+        }
+
         String res = "Here are the tasks in your list:\n";
 
         for (int i = 0; i < this.list.size(); i++) {

@@ -9,7 +9,8 @@ class Color {
 public class Rocky {
     private static final Scanner input = new Scanner(System.in);
 
-    private static final String logo = "                    __                  \n" +
+    private static final String logo =
+            "                    __                  \n" +
             "                   /\\ \\                 \n" +
             " _ __   ___     ___\\ \\ \\/'\\   __  __    \n" +
             "/\\`'__\\/ __`\\  /'___\\ \\ , <  /\\ \\/\\ \\   \n" +
@@ -54,6 +55,24 @@ public class Rocky {
         );
     }
 
+    private static int parseIndex(String input) throws RockyException {
+        try {
+            int index = Integer.parseInt(input) - 1;
+            if (index < 0 || index >= tasks.size()) {
+                throw new RockyException(tasks.isEmpty()
+                        ? "List is empty"
+                        : (tasks.size() == 1
+                            ? "There is only one task. Please choose task 1 :)"
+                            : String.format("Please choose tasks from 1 to %d :))", tasks.size())
+                        )
+                );
+            }
+            return index;
+        } catch (NumberFormatException e) {
+            throw new RockyException("Please provide a valid number\uD83E\uDD7A");
+        }
+    }
+
     /**
      * Perform corresponding action according to the command passed
      *
@@ -71,65 +90,37 @@ public class Rocky {
                 System.exit(0);
 
             case "list":
-                if (tasks.isEmpty()) {
-                    say("Your list is empty! Please add some tasks!", Color.GREEN);
-                } else {
-                    say(tasks.toString(), Color.GREEN);
-                }
+                say(tasks.toString(), Color.GREEN);
                 break;
 
             case "mark":
-                try {
-                    int mark_idx = Integer.parseInt(command[1]) - 1;
-                    tasks.markTask(mark_idx);
-                    say("Nice! I've marked this mark as done:\n" + tasks.getTask(mark_idx).toString(), Color.GREEN);
-                } catch (NumberFormatException e) {
-                    throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
-                } catch (IndexOutOfBoundsException e) {
-                    throw new RockyException(tasks.isEmpty()
-                            ? "List is empty"
-                            : (tasks.size() == 1
-                                ? "There is only one task. Please choose task 1 :)"
-                                : String.format("Please choose tasks from 1 to %d :))", tasks.size())));
-                }
+                int mark_idx = parseIndex(details);
+                tasks.markTask(mark_idx);
+                say("Nice! I've marked this mark as done:\n"
+                        + tasks.getTask(mark_idx).toString(),
+                        Color.GREEN);
                 break;
 
             case "unmark":
-                try {
-                    int unmark_idx = Integer.parseInt(command[1]) - 1;
-                    tasks.unmarkTask(unmark_idx);
-                    say("OK, I've marked this task as not done yet:\n" + tasks.getTask(unmark_idx).toString(), Color.GREEN);
-                } catch (NumberFormatException e) {
-                    throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
-                } catch (IndexOutOfBoundsException e) {
-                    throw new RockyException(tasks.isEmpty()
-                                ? "List is empty"
-                                : (tasks.size() == 1
-                                        ? "There is only one task. Please choose task 1 :)"
-                                        : String.format("Please choose tasks from 1 to %d :))", tasks.size())));
-                }
+                int unmark_idx = parseIndex(details);
+                tasks.unmarkTask(unmark_idx);
+                say("OK, I've marked this task as not done yet:\n"
+                        + tasks.getTask(unmark_idx).toString(),
+                        Color.GREEN);
                 break;
 
             case "delete":
-                try {
-                    int dlt_idx = Integer.parseInt(command[1]) - 1;
-                    tasks.deleteTask(dlt_idx);
-                    say("Noted. I've removed this task from the list:\n" + tasks.getTask(dlt_idx).toString()
-                                    + "\nNow you have " + tasks.size() + " tasks in your list", Color.GREEN);
-                } catch (NumberFormatException e) {
-                    throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
-                } catch (IndexOutOfBoundsException e) {
-                    throw new RockyException(tasks.isEmpty()
-                            ? "List is empty"
-                            : (tasks.size() == 1
-                            ? "There is only one task. Please choose task 1 :)"
-                            : String.format("Please choose tasks from 1 to %d :))", tasks.size())));
-                }
+                int dlt_idx = parseIndex(details);
+                tasks.deleteTask(dlt_idx);
+                say("Noted. I've removed this task from the list:\n"
+                        + tasks.getTask(dlt_idx).toString()
+                        + "\nNow you have " + tasks.size() + " tasks in your list",
+                        Color.GREEN);
                 break;
 
             case "todo":
                 if (details.isEmpty()) {
-                    throw new RockyException("I don't know what u are trying to do. Add some task!");
+                    throw new RockyException("I don't know what u are trying to do. Add some todo!");
                 }
                 Todo todo = new Todo(details);
                 tasks.addTask(todo);
@@ -164,7 +155,7 @@ public class Rocky {
                 break;
 
             default:
-                throw new RockyException("Sry!! I don't know what that means" + "\uD83E\uDD7A");
+                throw new RockyException("Sry!! I don't know what that means\uD83E\uDD7A");
         }
     }
 
