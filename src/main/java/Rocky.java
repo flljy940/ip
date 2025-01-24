@@ -1,9 +1,9 @@
 import java.util.Scanner;
 
 class Color {
-    public static final String none = "\033[m";
-    public static final String green = "\033[32m";
-    public static final String red = "\033[31m";
+    public static final String NONE = "\033[m";
+    public static final String GREEN = "\033[32m";
+    public static final String RED = "\033[31m";
 }
 
 public class Rocky {
@@ -24,8 +24,13 @@ public class Rocky {
 
     private static final TaskList tasks = new TaskList();
 
+    /**
+     * Method for Rocky to print message in a formatted style
+     *
+     * @param message Message to print
+     * @param color Color displayed in text
+     */
     private static void say(String message, String color) {
-        // Color theme for Rocky
         System.out.println(color);
 
         System.out.println("<<<<<<<");
@@ -33,7 +38,7 @@ public class Rocky {
         System.out.println(">>>>>>>");
 
         // Reset to default
-        System.out.println(Color.none);
+        System.out.println(Color.NONE);
     }
 
     /**
@@ -45,10 +50,16 @@ public class Rocky {
         say("Got it. I've added this task:\n" +
                 task.toString() +
                 "\nNow you have " + tasks.size() + " tasks in the list.",
-                Color.green
+                Color.GREEN
         );
     }
 
+    /**
+     * Perform corresponding action according to the command passed
+     *
+     * @param action Command from user
+     * @throws RockyException General exception for invalid user command: invalid command, invalid arguments, etc.
+     */
     private static void handleAction(String action) throws RockyException {
         String[] command = action.split(" ", 2);
         String instruction = command[0];
@@ -56,14 +67,14 @@ public class Rocky {
 
         switch (instruction) {
             case "bye":
-                say("Bye. Hope to see you again soon!", Color.green);
+                say("Bye. Hope to see you again soon!", Color.GREEN);
                 System.exit(0);
 
             case "list":
                 if (tasks.isEmpty()) {
-                    say("Your list is empty! Please add some tasks!", Color.green);
+                    say("Your list is empty! Please add some tasks!", Color.GREEN);
                 } else {
-                    say(tasks.toString(), Color.green);
+                    say(tasks.toString(), Color.GREEN);
                 }
                 break;
 
@@ -71,7 +82,7 @@ public class Rocky {
                 try {
                     int mark_idx = Integer.parseInt(command[1]) - 1;
                     tasks.markTask(mark_idx);
-                    say("Nice! I've marked this mark as done:\n" + tasks.getTask(mark_idx).toString(), Color.green);
+                    say("Nice! I've marked this mark as done:\n" + tasks.getTask(mark_idx).toString(), Color.GREEN);
                 } catch (NumberFormatException e) {
                     throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
                 } catch (IndexOutOfBoundsException e) {
@@ -87,7 +98,7 @@ public class Rocky {
                 try {
                     int unmark_idx = Integer.parseInt(command[1]) - 1;
                     tasks.unmarkTask(unmark_idx);
-                    say("OK, I've marked this task as not done yet:\n" + tasks.getTask(unmark_idx).toString(), Color.green);
+                    say("OK, I've marked this task as not done yet:\n" + tasks.getTask(unmark_idx).toString(), Color.GREEN);
                 } catch (NumberFormatException e) {
                     throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
                 } catch (IndexOutOfBoundsException e) {
@@ -104,7 +115,7 @@ public class Rocky {
                     int dlt_idx = Integer.parseInt(command[1]) - 1;
                     tasks.deleteTask(dlt_idx);
                     say("Noted. I've removed this task from the list:\n" + tasks.getTask(dlt_idx).toString()
-                                    + "\nNow you have " + tasks.size() + " tasks in your list", Color.green);
+                                    + "\nNow you have " + tasks.size() + " tasks in your list", Color.GREEN);
                 } catch (NumberFormatException e) {
                     throw new RockyException("Please provide a valid number" + "\uD83E\uDD7A");
                 } catch (IndexOutOfBoundsException e) {
@@ -159,16 +170,16 @@ public class Rocky {
 
     public static void main(String[] args) {
         System.out.println("Hello from\n" + logo);
-        say(introduction, Color.green);
+        say(introduction, Color.GREEN);
 
         while (true) {
             String action = input.nextLine();
             try {
                 handleAction(action);
             } catch (RockyException e) {
-                say(e.getLocalizedMessage(), Color.red);
+                say(e.getLocalizedMessage(), Color.RED);
             } catch (Exception e) {
-                say("Something went wrong! Please try again.", Color.red);
+                say("Something went wrong! Please try again.", Color.RED);
             }
         }
     }

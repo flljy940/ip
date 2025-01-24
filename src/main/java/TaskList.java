@@ -1,4 +1,3 @@
-import java.sql.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,8 +16,8 @@ public class TaskList {
         list.get(index).unmarkAsDone();
     }
 
-    public Task deleteTask(int index) {
-        return this.list.remove(index);
+    public void deleteTask(int index) {
+        this.list.remove(index);
     }
 
     public Task getTask(int index) {
