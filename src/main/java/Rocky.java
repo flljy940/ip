@@ -118,11 +118,12 @@ public class Rocky {
 
             case DELETE:
                 int dlt_idx = parseIndex(details);
+                Task deletedTask = tasks.getTask(dlt_idx);
+                tasks.deleteTask(dlt_idx);
                 say("Noted. I've removed this task from the list:\n"
-                        + tasks.getTask(dlt_idx).toString()
+                        + deletedTask.toString()
                         + "\nNow you have " + tasks.size() + " tasks in your list",
                         Color.GREEN);
-                tasks.deleteTask(dlt_idx);
                 break;
 
             case TODO:
