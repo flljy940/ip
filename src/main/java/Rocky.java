@@ -1,9 +1,11 @@
+import java.io.IOException;
 import java.util.Scanner;
 
 class Color {
     public static final String NONE = "\033[m";
     public static final String GREEN = "\033[32m";
     public static final String RED = "\033[31m";
+    public static final String YELLOW = "\033[33m";
 }
 
 public class Rocky {
@@ -23,7 +25,8 @@ public class Rocky {
     private static final String introduction = "Hello, I'm Rocky\n" +
                                                 "What can I do for you?";
 
-    private static final TaskList tasks = new TaskList();
+    private static TaskList tasks;
+    private static FileManager fileManager;
 
     /**
      * Method for Rocky to print message in a formatted style
@@ -170,6 +173,14 @@ public class Rocky {
     public static void main(String[] args) {
         System.out.println("Hello from\n" + logo);
         say(introduction, Color.GREEN);
+
+        try {
+            fileManager = new FileManager("data/tasks.txt");
+            tasks = fileManager.loadTasks();
+        } catch (IOException | RockyException e) {
+            say("[!] Error reading file - initializing task list as empty list", Color.YELLOW);
+            tasks = new TaskList();
+        }
 
         while (true) {
             String action = input.nextLine();

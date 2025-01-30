@@ -32,6 +32,19 @@ public class TaskList {
         return this.list.isEmpty();
     }
 
+    public String tasksFileSaveFormat() {
+        String result = "";
+
+        for (int i = 0; i < this.list.size(); i++) {
+            result += this.getTask(i).fileSaveFormat();
+
+            if (i != this.list.size() - 1) {
+                result += "\n";
+            }
+        }
+        return result;
+    }
+
     @Override
     public String toString() {
         if (this.list.isEmpty()) {
