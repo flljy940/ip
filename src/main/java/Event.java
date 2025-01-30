@@ -9,7 +9,7 @@ public class Event extends Task {
     }
 
     public Event(String event, String from, String to, boolean isDone) {
-        super(event, isDone);
+        super(event, 'E', isDone);
         this.from = from;
         this.to = to;
     }
