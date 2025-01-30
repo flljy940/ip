@@ -2,7 +2,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class TaskList {
-    private List<Task> list = new ArrayList<>();
+    private final List<Task> list = new ArrayList<>();
 
     public void addTask(Task task) {
         this.list.add(task);
@@ -16,8 +16,8 @@ public class TaskList {
         list.get(index).unmarkAsDone();
     }
 
-    public Task deleteTask(int index) {
-        return this.list.remove(index);
+    public void deleteTask(int index) {
+        this.list.remove(index);
     }
 
     public Task getTask(int index) {

@@ -111,16 +111,16 @@ public class Rocky {
             case MARK:
                 int mark_idx = parseIndex(details);
                 tasks.markTask(mark_idx);
-                say("Nice! I've marked this mark as done:\n"
-                        + tasks.getTask(mark_idx).toString(),
+                say("Nice! Marked as done:\n"
+                        + tasks.getTask(mark_idx),
                         Color.GREEN);
                 break;
 
             case UNMARK:
                 int unmark_idx = parseIndex(details);
                 tasks.unmarkTask(unmark_idx);
-                say("OK, I've marked this task as not done yet:\n"
-                        + tasks.getTask(unmark_idx).toString(),
+                say("OK, marked as not done yet:\n"
+                        + tasks.getTask(unmark_idx),
                         Color.GREEN);
                 break;
 
@@ -128,8 +128,8 @@ public class Rocky {
                 int dlt_idx = parseIndex(details);
                 Task deletedTask = tasks.getTask(dlt_idx);
                 tasks.deleteTask(dlt_idx);
-                say("Noted. I've removed this task from the list:\n"
-                        + deletedTask.toString()
+                say("Noted. Task removed:\n"
+                        + deletedTask
                         + "\nNow you have " + tasks.size() + " tasks in your list",
                         Color.GREEN);
                 break;
