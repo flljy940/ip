@@ -16,12 +16,16 @@ public class TaskList {
         list.get(index).unmarkAsDone();
     }
 
-    public void deleteTask(int index) {
-        this.list.remove(index);
+    public Task deleteTask(int index) {
+        return this.list.remove(index);
     }
 
     public Task getTask(int index) {
         return this.list.get(index);
+    }
+
+    public List<Task> getTasks() {
+        return this.list;
     }
 
     public int size() {

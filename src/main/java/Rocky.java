@@ -97,6 +97,11 @@ public class Rocky {
         switch (command) {
             case BYE:
                 say("Bye. Hope to see you again soon!", Color.GREEN);
+                try {
+                    fileManager.saveTasks(tasks);
+                } catch (IOException e) {
+                    say("Can't save tasks to file", Color.RED);
+                }
                 System.exit(0);
 
             case LIST:

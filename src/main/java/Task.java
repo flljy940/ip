@@ -1,29 +1,29 @@
 public class Task {
     protected String task;
     protected boolean isDone;
-    private final char tag;
+    private final char type;
 
     public Task(String task) {
         this.task = task;
-        this.tag = ' ';
+        this.type = ' ';
         this.isDone = false;
     }
 
     public Task(String task, boolean isDone) {
         this.task = task;
-        this.tag = ' ';
+        this.type = ' ';
         this.isDone = isDone;
     }
 
     public Task(String task, char tag) {
         this.task = task;
-        this.tag = tag;
+        this.type = tag;
         this.isDone = false;
     }
 
-    public Task(String task, char tag, boolean isDone) {
+    public Task(String task, char type, boolean isDone) {
         this.task = task;
-        this.tag = tag;
+        this.type = type;
         this.isDone = isDone;
     }
 
@@ -31,8 +31,8 @@ public class Task {
         return this.task;
     }
 
-    public char getTag() {
-        return this.tag;
+    public char getTaskType() {
+        return this.type;
     }
 
     public boolean isDone() {
@@ -52,30 +52,31 @@ public class Task {
     }
 
     public String fileSaveFormat() {
-        return String.format("%c|%c|%s",
-                this.getTag(),
+        return String.format("%c | %c | %s",
+                this.getTaskType(),
                 this.isDone() ? '1' : '0',
                 this.task);
     }
 
     public static Task parseFileSaveFormat(String fmt) throws RockyException {
-        String[] taskDetails = fmt.split("\\|\\|");
+        String[] taskDetails = fmt.split("\\|");
 
         if (taskDetails.length < 3) {
             throw new RockyException("Invalid task format");
         }
 
+        char taskType = taskDetails[0].charAt(0);
         boolean isDone = taskDetails[1].equals("1");
         String taskName = taskDetails[2];
 
         Task task;
 
-        switch (taskDetails[0]) {
-        case "T":
+        switch (taskType) {
+        case 'T':
             task = new Todo(taskName, isDone);
             break;
 
-        case "D":
+        case 'D':
             try {
                 String deadline = taskDetails[3];
                 task = new Deadline(taskName, deadline, isDone);
@@ -84,7 +85,7 @@ public class Task {
             }
             break;
 
-        case "E":
+        case 'E':
             try {
                 String[] eventDate = taskDetails[3].split("-");
                 String from = eventDate[0];
