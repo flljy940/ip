@@ -1,8 +1,12 @@
-import java.time.format.DateTimeFormatter;
+package rocky.command;
+
 import java.util.HashMap;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.time.format.DateTimeFormatter;
+
+import rocky.exception.RockyException;
 
 public class Parser {
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
@@ -10,8 +14,8 @@ public class Parser {
     private static final String[][] COMMANDS = {
             { "bye", "bye", "bye" },
             { "list", "list", "list" },
-            { "mark", "mark (\\d+)", "mark <task number>" },
-            { "unmark", "unmark (\\d+)", "unmark <task number>" },
+            { "mark", "mark (\\d+)", "mark <rocky.task number>" },
+            { "unmark", "unmark (\\d+)", "unmark <rocky.task number>" },
             { "todo", "todo (.*)", "todo <description>" },
             { "deadline",
                     "deadline (.*) /(by) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4})",
@@ -19,7 +23,7 @@ public class Parser {
             { "event",
                     "event (.*) /(on) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4})",
                     "event <description> /at <d/M/yyyy>" },
-            { "delete", "delete (\\d+)", "delete <task number>" },
+            { "delete", "delete (\\d+)", "delete <rocky.task number>" },
     };
 
     private final Scanner input;

@@ -1,5 +1,22 @@
+package rocky;
+
 import java.io.IOException;
 import java.util.Scanner;
+
+import rocky.task.TaskList;
+import rocky.task.Task;
+import rocky.task.Todo;
+import rocky.task.Deadline;
+import rocky.task.Event;
+
+import rocky.command.Command;
+import rocky.command.Parser;
+
+import rocky.storage.Storage;
+
+import rocky.ui.Ui;
+
+import rocky.exception.RockyException;
 
 public class Rocky {
     private static TaskList tasks;

@@ -1,3 +1,7 @@
+package rocky.task;
+
+import rocky.exception.RockyException;
+
 public class Task {
     protected String task;
     protected boolean isDone;

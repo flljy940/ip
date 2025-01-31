@@ -1,23 +1,26 @@
+package rocky.task;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
-import java.util.Date;
+
+import rocky.command.Parser;
 
 public class Deadline extends Task {
     protected LocalDate dueDate;
 
     public Deadline(String task, String dueDate) throws DateTimeParseException {
-        super(task);
+        super(task, 'D');
         this.dueDate = LocalDate.parse(dueDate, Parser.DATE_FORMAT);
     }
 
     public Deadline(String task, String dueDate, boolean isDone) throws DateTimeParseException {
-        super(task, isDone);
+        super(task, 'D', isDone);
         this.dueDate = LocalDate.parse(dueDate, Parser.DATE_FORMAT);
     }
 
     public Deadline(String task, LocalDate dueDate) {
-        super(task);
+        super(task, 'D');
         this.dueDate = dueDate;
     }
 

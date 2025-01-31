@@ -1,3 +1,7 @@
+package rocky.ui;
+
+import rocky.task.Task;
+
 public class Ui {
     protected static class Color {
         public static final String NONE = "\033[m";
