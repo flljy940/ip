@@ -15,9 +15,9 @@ public class Task {
         this.isDone = isDone;
     }
 
-    public Task(String task, char tag) {
+    public Task(String task, char type) {
         this.task = task;
-        this.type = tag;
+        this.type = type;
         this.isDone = false;
     }
 
@@ -53,7 +53,7 @@ public class Task {
 
     public String fileSaveFormat() {
         return String.format("%c | %c | %s",
-                this.getTaskType(),
+                this.type,
                 this.isDone() ? '1' : '0',
                 this.task);
     }
@@ -87,10 +87,10 @@ public class Task {
 
         case 'E':
             try {
-                String[] eventDate = taskDetails[3].split("-");
-                String from = eventDate[0];
-                String to = eventDate[1];
-                task = new Event(taskName, from, to, isDone);
+                String[] eventDetails = taskDetails[3].split(" ");
+                String date = eventDetails[0];
+                String timeRange = eventDetails[1];
+                task = new Event(taskName, date, timeRange, isDone);
             } catch (IndexOutOfBoundsException e) {
                 throw new RockyException("Invalid task format");
             }

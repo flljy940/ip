@@ -1,7 +1,7 @@
 public class Todo extends Task {
 
     public Todo(String todo) {
-        super(todo);
+        super(todo, 'T');
     }
 
     public Todo(String todo, boolean isDone) {
@@ -11,5 +11,10 @@ public class Todo extends Task {
     @Override
     public String toString() {
         return "[T]" + super.toString();
+    }
+
+    @Override
+    public String fileSaveFormat() {
+        return String.format("%s|", super.fileSaveFormat());
     }
 }
