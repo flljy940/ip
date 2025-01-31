@@ -1,5 +1,4 @@
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -13,8 +12,8 @@ public class Event extends Task {
     protected static final DateTimeFormatter outputDateFmt = DateTimeFormatter.ofPattern("MMM dd yyyy");
     protected static final DateTimeFormatter outputTimeFmt = DateTimeFormatter.ofPattern("h:mm a");
 
-    public Event(String event, String date, String timeRange) throws DateTimeParseException{
-        super(event, 'E');
+    public Event(String name, String date, String timeRange) throws DateTimeParseException{
+        super(name, 'E');
         this.date = LocalDate.parse(date, dateFmt);
 
         String[] times = timeRange.split("-");
@@ -26,8 +25,8 @@ public class Event extends Task {
         }
     }
 
-    public Event(String event, String date, String timeRange, boolean isDone) throws DateTimeParseException {
-        super(event, 'E', isDone);
+    public Event(String name, String date, String timeRange, boolean isDone) throws DateTimeParseException {
+        super(name, 'E', isDone);
         this.date = LocalDate.parse(date, dateFmt);
 
         String[] times = timeRange.split("-");
@@ -35,7 +34,7 @@ public class Event extends Task {
             this.startTime = LocalTime.parse(times[0], timeFmt);
             this.endTime = LocalTime.parse(times[1], timeFmt);
         } else {
-        throw new DateTimeParseException("Invalid time range", timeRange, 0);
+            throw new DateTimeParseException("Invalid time range", timeRange, 0);
         }
     }
 
@@ -64,7 +63,7 @@ public class Event extends Task {
 
     @Override
     public String fileSaveFormat() {
-        return String.format("%s|%s|%s-%s",
+        return String.format("%s|%s %s-%s",
                 super.fileSaveFormat(),
                 date.format(dateFmt),
                 startTime.format(timeFmt),

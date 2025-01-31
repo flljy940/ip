@@ -1,5 +1,4 @@
-Here are the tasks in your list:
-1. [T][X] hiking
-2. [D][X] snorkeling (by: Jun 16 2025)
-3. [E][ ] birthday party (on: Aug 17 2025 at 6:00 pm - 11:00 pm)
-4. [T][X] join sports club
+T|1|hiking|
+D|0|snorkeling|6/6/2025
+E|0|birthday party|17/8/2025 1800-2300
+T|1|join sports club|

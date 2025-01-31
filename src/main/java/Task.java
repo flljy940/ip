@@ -52,7 +52,7 @@ public class Task {
     }
 
     public String fileSaveFormat() {
-        return String.format("%c | %c | %s",
+        return String.format("%c|%c|%s",
                 this.type,
                 this.isDone() ? '1' : '0',
                 this.task);
@@ -69,7 +69,7 @@ public class Task {
         boolean isDone = taskDetails[1].equals("1");
         String taskName = taskDetails[2];
 
-        Task task;
+        Task task = null;
 
         switch (taskType) {
         case 'T':
@@ -78,10 +78,10 @@ public class Task {
 
         case 'D':
             try {
-                String deadline = taskDetails[3];
-                task = new Deadline(taskName, deadline, isDone);
+                String dueDate = taskDetails[3];
+                task = new Deadline(taskName, dueDate, isDone);
             } catch (IndexOutOfBoundsException e) {
-                throw new RockyException("Invalid task format");
+                throw new RockyException("Invalid deadline format");
             }
             break;
 
@@ -92,13 +92,14 @@ public class Task {
                 String timeRange = eventDetails[1];
                 task = new Event(taskName, date, timeRange, isDone);
             } catch (IndexOutOfBoundsException e) {
-                throw new RockyException("Invalid task format");
+                throw new RockyException("Invalid event format");
             }
             break;
 
         default:
-            task = new Task(taskName, isDone);
-            break;
+//            task = new Task(taskName, isDone);
+//            break;
+            throw new RockyException("Unknown task type");
         }
 
         return task;

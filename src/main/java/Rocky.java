@@ -1,62 +1,11 @@
 import java.io.IOException;
 import java.util.Scanner;
 
-class Color {
-    public static final String NONE = "\033[m";
-    public static final String GREEN = "\033[32m";
-    public static final String RED = "\033[31m";
-    public static final String YELLOW = "\033[33m";
-}
-
 public class Rocky {
-    private static final Scanner input = new Scanner(System.in);
-
-    private static final String logo =
-            "                    __                  \n" +
-            "                   /\\ \\                 \n" +
-            " _ __   ___     ___\\ \\ \\/'\\   __  __    \n" +
-            "/\\`'__\\/ __`\\  /'___\\ \\ , <  /\\ \\/\\ \\   \n" +
-            "\\ \\ \\//\\ \\L\\ \\/\\ \\__/\\ \\ \\\\`\\\\ \\ \\_\\ \\  \n" +
-            " \\ \\_\\\\ \\____/\\ \\____\\\\ \\_\\ \\_\\/`____ \\ \n" +
-            "  \\/_/ \\/___/  \\/____/ \\/_/\\/_/`/___/> \\\n" +
-            "                                  /\\___/\n" +
-            "                                  \\/__/ \n";
-
-    private static final String introduction = "Hello, I'm Rocky\n" +
-                                                "What can I do for you?";
-
     private static TaskList tasks;
-    private static FileManager fileManager;
-
-    /**
-     * Method for Rocky to print message in a formatted style
-     *
-     * @param message Message to print
-     * @param color Color displayed in text
-     */
-    private static void say(String message, String color) {
-        System.out.println(color);
-
-        System.out.println("<<<<<<<");
-        System.out.println(message);
-        System.out.println(">>>>>>>");
-
-        // Reset to default
-        System.out.println(Color.NONE);
-    }
-
-    /**
-     * Log the new tasks in the same format
-     *
-     * @param task Task added to be logged
-     */
-    private static void logNewTask(Task task) {
-        say("Got it. I've added this task:\n" +
-                task.toString() +
-                "\nNow you have " + tasks.size() + " tasks in the list.",
-                Color.GREEN
-        );
-    }
+    private static Storage storage;
+    private static final Parser cmd = new Parser(new Scanner(System.in));
+    private static final Ui ui = new Ui();
 
     private static int parseIndex(String input) throws RockyException {
         try {
@@ -82,92 +31,66 @@ public class Rocky {
      * @param action Command from user
      * @throws RockyException General exception for invalid user command: invalid command, invalid arguments, etc.
      */
-    private static void handleAction(String action) throws RockyException {
-        String[] commandParts = action.split(" ", 2);
-        String commandName = commandParts[0].toUpperCase();
-        String details = commandParts.length > 1 ? commandParts[1] : "";
-
-        Command command;
-        try {
-            command = Command.valueOf(commandName); // Convert string to enum
-        } catch (IllegalArgumentException e) {
-            throw new RockyException(String.format("Invalid command: %s", commandName));
-        }
-
-        switch (command) {
-            case BYE:
-                say("Bye. Hope to see you again soon!", Color.GREEN);
+    private static void handleAction(Command action) throws RockyException {
+        switch (action.getCmd()) {
+            case "bye":
+                Ui.say("Bye. Hope to see you again soon!");
                 try {
-                    fileManager.saveTasks(tasks);
+                    storage.saveTasks(tasks);
                 } catch (IOException e) {
-                    say("Can't save tasks to file", Color.RED);
+                    ui.error("Can't save tasks to file");
                 }
                 System.exit(0);
 
-            case LIST:
-                say(tasks.toString(), Color.GREEN);
+            case "list":
+                Ui.say(tasks.toString());
                 break;
 
-            case MARK:
-                int mark_idx = parseIndex(details);
+            case "mark":
+                int mark_idx = Integer.parseInt(action.getArgs()) - 1;
                 tasks.markTask(mark_idx);
-                say("Nice! Marked as done:\n"
-                        + tasks.getTask(mark_idx),
-                        Color.GREEN);
+                Ui.say("Nice! Marked as done:\n"
+                        + tasks.getTask(mark_idx));
                 break;
 
-            case UNMARK:
-                int unmark_idx = parseIndex(details);
+            case "unmark":
+                int unmark_idx = Integer.parseInt(action.getArgs()) - 1;
                 tasks.unmarkTask(unmark_idx);
-                say("OK, marked as not done yet:\n"
-                        + tasks.getTask(unmark_idx),
-                        Color.GREEN);
+                Ui.say("OK, marked as not done yet:\n"
+                        + tasks.getTask(unmark_idx));
                 break;
 
-            case DELETE:
-                int dlt_idx = parseIndex(details);
-                Task deletedTask = tasks.getTask(dlt_idx);
-                tasks.deleteTask(dlt_idx);
-                say("Noted. Task removed:\n"
+            case "delete":
+                int dlt_idx = Integer.parseInt(action.getArgs()) - 1;
+                Task deletedTask = tasks.deleteTask(dlt_idx);
+                Ui.say("Noted. Task removed:\n"
                         + deletedTask
-                        + "\nNow you have " + tasks.size() + " tasks in your list",
-                        Color.GREEN);
+                        + "\nNow you have " + tasks.size() + " tasks in your list");
                 break;
 
-            case TODO:
-                if (details.isEmpty()) {
-                    throw new RockyException("I don't know what u are trying to do. Add some todo!");
-                }
-                Todo todo = new Todo(details);
+            case "todo":
+                String todoName = action.getArgs();
+                Todo todo = new Todo(todoName);
                 tasks.addTask(todo);
-                logNewTask(todo);
+                Ui.logNewTask(todo, tasks.size());
                 break;
 
-            case DEADLINE:
-                if (details.isEmpty()) {
-                    throw new RockyException("I don't know what u are trying to do. Add some task!");
-                }
-                String[] parts = details.split(" /by ", 2);
-                if (parts.length < 2) {
-                    throw new RockyException("You must add the task and the due date with /by.");
-                }
-                Deadline deadline = new Deadline(parts[0], parts[1]);
+            case "deadline":
+                String deadlineName = action.getArgs();
+                String deadlineDate = action.getKwargs().get("by");
+                Deadline deadline = new Deadline(deadlineName, deadlineDate);
                 tasks.addTask(deadline);
-                logNewTask(deadline);
+                Ui.logNewTask(deadline, tasks.size());
                 break;
 
-            case EVENT:
-                if (details.isEmpty()) {
-                    throw new RockyException("I don't know what u are trying to do. Add some event!");
-                }
-                String[] pt = details.split(" /from ", 2);
-                if (pt.length < 2 || !pt[1].contains(" /to ")) {
-                    throw new RockyException("An event must have '/from' and '/to' clauses.");
-                }
-                String[] time = pt[1].split(" /to ", 2);
-                Event event = new Event(pt[0], time[0], time[1]);
+            case "event":
+                String eventName = action.getArgs();
+                String[] eventTime = action.getKwargs().get("at").split(" ");
+                String eventDate = eventTime[0];
+                String timeRange = eventTime[1];
+                Event event = new Event(eventName, eventDate, timeRange);
                 tasks.addTask(event);
-                logNewTask(event);
+                Ui.logNewTask(event, tasks.size());
                 break;
 
             default:
@@ -175,27 +98,33 @@ public class Rocky {
         }
     }
 
-    public static void main(String[] args) {
-        System.out.println("Hello from\n" + logo);
-        say(introduction, Color.GREEN);
+    public Rocky(String filename) {
+        Ui.rocky();
+
+        String introduction = "Hello, I'm Rocky\n" + "What can I do for you?";
+        Ui.say(introduction);
 
         try {
-            fileManager = new FileManager("data/tasks.txt");
-            tasks = fileManager.loadTasks();
+            storage = new Storage(filename);
+            tasks = storage.loadTasks();
         } catch (IOException | RockyException e) {
-            say("[!] Error reading file - initializing task list as empty list", Color.YELLOW);
+            ui.warning("[!] Error reading file - initializing task list as empty list");
             tasks = new TaskList();
         }
+    }
 
+    public void run() {
         while (true) {
-            String action = input.nextLine();
             try {
+                Command action = cmd.readAndParse();
                 handleAction(action);
             } catch (RockyException e) {
-                say(e.getLocalizedMessage(), Color.RED);
-            } catch (Exception e) {
-                say("Something went wrong! Please try again.", Color.RED);
+                ui.error("Something went wrong! Please try again.");
             }
         }
+    }
+
+    public static void main(String[] args) {
+        new Rocky("data/tasks.txt").run();
     }
 }
