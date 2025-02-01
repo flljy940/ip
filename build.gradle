@@ -1,16 +1,19 @@
 plugins {
     id 'java'
     id 'application'
+    id 'checkstyle'
     id 'com.github.johnrengelman.shadow' version '7.1.2'
 }
 
 repositories {
     mavenCentral()
+    maven { url 'https://oss.sonatype.org/content/repositories/snapshots/' }
 }
 
 dependencies {
     testImplementation group: 'org.junit.jupiter', name: 'junit-jupiter-api', version: '5.10.0'
     testRuntimeOnly group: 'org.junit.jupiter', name: 'junit-jupiter-engine', version: '5.10.0'
+    implementation group: 'com.joestelmach', name: 'natty', version: '0.13'
 }
 
 test {
@@ -27,8 +30,14 @@ test {
     }
 }
 
+checkstyle {
+//    configFile = file('config/checkstyle/checkstyle.xml')
+    toolVersion = '10.2'
+}
+
+
 application {
-    mainClass.set("seedu.duke.Duke")
+    mainClass.set("rocky.Rocky")
 }
 
 shadowJar {
