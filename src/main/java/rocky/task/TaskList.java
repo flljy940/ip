@@ -3,27 +3,53 @@ package rocky.task;
 import java.util.ArrayList;
 import java.util.List;
 
+import rocky.exception.RockyException;
+
 public class TaskList {
-    private final List<Task> list = new ArrayList<>();
+    private List<Task> list;
+
+    public TaskList() {
+        this(new ArrayList<>());
+    }
+
+    public TaskList(List<Task> list) {
+        this.list = list;
+    }
 
     public void addTask(Task task) {
         this.list.add(task);
     }
 
-    public void markTask(int index) {
-        list.get(index).markAsDone();
+    public void markTask(int index) throws RockyException {
+        checkIndex(index);
+        this.list.get(index).markAsDone();
     }
 
-    public void unmarkTask(int index) {
-        list.get(index).unmarkAsDone();
+    public void unmarkTask(int index) throws RockyException {
+        checkIndex(index);
+        this.list.get(index).unmarkAsDone();
     }
 
-    public Task deleteTask(int index) {
+    public Task deleteTask(int index) throws RockyException {
+        checkIndex(index);
         return this.list.remove(index);
     }
 
-    public Task getTask(int index) {
+    public Task getTask(int index) throws RockyException {
+        checkIndex(index);
         return this.list.get(index);
+    }
+
+    private void checkIndex(int index) throws RockyException {
+        if (index >= 0 && index < this.size()) {
+            return;
+        }
+
+        throw new RockyException(
+                this.size() == 0
+                        ? "List is empty"
+                        : String.format("Please choose tasks from 1 to %d", this.size())
+        );
     }
 
     public List<Task> getTasks() {
@@ -38,13 +64,13 @@ public class TaskList {
         return this.list.isEmpty();
     }
 
-    public String tasksFileSaveFormat() {
+    public String listFileSaveFormat() {
         String result = "";
 
-        for (int i = 0; i < this.list.size(); i++) {
-            result += this.getTask(i).fileSaveFormat();
+        for (int i = 0; i < this.size(); i++) {
+            result += this.list.get(i).toFileSaveFormat();
 
-            if (i != this.list.size() - 1) {
+            if (i != this.size() - 1) {
                 result += "\n";
             }
         }

@@ -5,6 +5,8 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
+import rocky.command.Parser;
+
 public class Event extends Task {
     protected LocalDate date;
     protected LocalTime startTime;
@@ -64,9 +66,9 @@ public class Event extends Task {
     }
 
     @Override
-    public String fileSaveFormat() {
+    public String toFileSaveFormat() {
         return String.format("%s|%s %s-%s",
-                super.fileSaveFormat(),
+                super.toFileSaveFormat(),
                 date.format(dateFmt),
                 startTime.format(timeFmt),
                 endTime.format(timeFmt));

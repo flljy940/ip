@@ -16,7 +16,7 @@ public class Todo extends Task {
     }
 
     @Override
-    public String fileSaveFormat() {
-        return String.format("%s|", super.fileSaveFormat());
+    public String toFileSaveFormat() {
+        return String.format("%s|", super.toFileSaveFormat());
     }
 }

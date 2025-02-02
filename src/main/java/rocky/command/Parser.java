@@ -17,12 +17,16 @@ public class Parser {
             { "mark", "mark (\\d+)", "mark <rocky.task number>" },
             { "unmark", "unmark (\\d+)", "unmark <rocky.task number>" },
             { "todo", "todo (.*)", "todo <description>" },
-            { "deadline",
+            {
+                    "deadline",
                     "deadline (.*) /(by) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4})",
-                    "deadline <description> /by <d/M/yyyy>" },
-            { "event",
-                    "event (.*) /(on) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4})",
-                    "event <description> /at <d/M/yyyy>" },
+                    "deadline <description> /by <d/M/yyyy>"
+            },
+            {
+                    "event",
+                    "event (.*) /(at) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4}) (([01][0-9]|2[0-3])[0-5][0-9])-(([01][0-9]|2[0-3])[0-5][0-9])",
+                    "event <description> /at <d/M/yyyy> <HHmm-HHmm>"
+            },
             { "delete", "delete (\\d+)", "delete <rocky.task number>" },
     };
 
@@ -34,36 +38,39 @@ public class Parser {
 
     private static Command parseCommand(String line) throws RockyException {
         String cmdName = line.split(" ")[0];
-        for (String[] command : COMMANDS) {
+        for (String[] cmd : COMMANDS) {
             // Not the target command
-            if (!cmdName.equals(command[0])) continue;
+            if (!cmdName.equals(cmd[0])) {
+                continue;
+            }
 
-            Pattern pattern = Pattern.compile(command[1]);
+            Pattern pattern = Pattern.compile(cmd[1]);
             Matcher matcher = pattern.matcher(line);
 
-            if (matcher.find()) {
-                if (matcher.groupCount() > 0) {
-                    String arg = matcher.group(1);
-                    HashMap<String, String> kwargs = new HashMap<>();
-
-                    // kwargs start at 2,
-                    // the last one is groupCount() - 1, its value being groupCount()
-                    for (int i = 2; i < matcher.groupCount(); i+=2) {
-                        kwargs.put(matcher.group(i), matcher.group(i + 1));
-                    }
-
-                    return new Command(cmdName, arg, kwargs);
-                } else {
-                    return new Command(cmdName);
-                }
-            } else {
-                //Syntax error
+            // Syntax error
+            if (!matcher.matches()) {
                 throw new RockyException(String.format(
-                        "Wui, that's not how you do it...\n" +
-                                "\tUsage: s",
-                        command[2]
+                        "Wui, that's not how you do it...\n"
+                                + "\tUsage: %s",
+                        cmd[2]
                 ));
             }
+
+            // No args or kwargs
+            if (matcher.groupCount() == 0) {
+                return new Command(cmdName);
+            }
+
+            // Match args
+            String arg = matcher.group(1);
+            HashMap<String, String> kwargs = new HashMap<>();
+
+            // Match kwargs
+            for (int i = 2; i < matcher.groupCount(); i += 2) {
+                kwargs.put(matcher.group(i), matcher.group(i + 1));
+            }
+
+            return new Command(cmdName, arg, kwargs);
         }
 
         throw new RockyException("What are you trying to do?");

@@ -36,9 +36,9 @@ public class Deadline extends Task {
     }
 
     @Override
-    public String fileSaveFormat() {
+    public String toFileSaveFormat() {
         return String.format("%s|%s",
-                super.fileSaveFormat(),
+                super.toFileSaveFormat(),
                 this.dueDate.format(Parser.DATE_FORMAT));
     }
 }

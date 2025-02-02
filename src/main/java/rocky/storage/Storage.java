@@ -22,7 +22,7 @@ public class Storage {
 
     public void saveTasks(TaskList taskList) throws IOException {
         FileWriter fileWriter = new FileWriter(this.filename, false);
-        fileWriter.write(taskList.tasksFileSaveFormat());
+        fileWriter.write(taskList.listFileSaveFormat());
         fileWriter.close();
     }
 

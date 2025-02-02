@@ -1,4 +1,5 @@
 T|1|hiking|
 D|0|snorkeling|6/6/2025
 E|0|birthday party|17/8/2025 1800-2300
-T|1|join sports club|
+D|1|proposal|5/2/2025
+T|0|be happy|

@@ -55,7 +55,7 @@ public class Task {
         this.isDone = false;
     }
 
-    public String fileSaveFormat() {
+    public String toFileSaveFormat() {
         return String.format("%c|%c|%s",
                 this.type,
                 this.isDone() ? '1' : '0',

@@ -9,7 +9,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 public class TaskListTest {
     @Test
     public void size_empty_zeroReturned() {
-        assertEquals(new TaskList().size(), 0);
+        assertEquals(0, new TaskList().size());
     }
 
     @Test
@@ -20,23 +20,23 @@ public class TaskListTest {
         tasks.addTask(new Todo("second"));
         tasks.addTask(new Todo("third"));
 
-        assertEquals(tasks.size(), 3);
+        assertEquals(3, tasks.size());
 
         try {
             tasks.deleteTask(2);
 
-            tasks.addTask(new Task("new 1"));
-            tasks.addTask(new Task("new 2"));
+            tasks.addTask(new Todo("new 1"));
+            tasks.addTask(new Todo("new 2"));
 
-            assertEquals(tasks.size(), 4);
+            assertEquals(4, tasks.size());
         } catch (RockyException e) {
-            System.out.println("Invalid");
+            e.printStackTrace();
             assert false;
         }
     }
 
     @Test
-    public void getTask_indexOutOfBounds_exceptionThrown() {
+    public void getTask_invalidIndex_exceptionThrown() {
         TaskList tasks = new TaskList();
 
         tasks.addTask(new Todo("first"));
@@ -48,7 +48,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void deleteTask_indexOutOfBounds_exceptionThrown() {
+    public void deleteTask_invalidIndex_exceptionThrown() {
         TaskList tasks = new TaskList();
 
         tasks.addTask(new Todo("first"));
@@ -60,7 +60,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void markTask_indexOutOfBounds_exceptionThrown() {
+    public void markTask_invalidIndex_exceptionThrown() {
         TaskList tasks = new TaskList();
 
         tasks.addTask(new Todo("first"));
@@ -72,7 +72,7 @@ public class TaskListTest {
     }
 
     @Test
-    public void unmarkTask_indexOutOfBounds_exceptionThrown() {
+    public void unmarkTask_invalidIndex_exceptionThrown() {
         TaskList tasks = new TaskList();
 
         tasks.addTask(new Todo("first"));

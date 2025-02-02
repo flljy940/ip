@@ -102,7 +102,7 @@ public class Rocky {
 
             case "event":
                 String eventName = action.getArgs();
-                String[] eventTime = action.getKwargs().get("at").split(" ");
+                String[] eventTime = action.getKwargs().get("at").trim().split("\\s+");
                 String eventDate = eventTime[0];
                 String timeRange = eventTime[1];
                 Event event = new Event(eventName, eventDate, timeRange);
@@ -136,7 +136,7 @@ public class Rocky {
                 Command action = cmd.readAndParse();
                 handleAction(action);
             } catch (RockyException e) {
-                ui.error("Something went wrong! Please try again.");
+                ui.error(e.getMessage());
             }
         }
     }
