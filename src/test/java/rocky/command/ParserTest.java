@@ -30,7 +30,7 @@ public class ParserTest {
             cmd = parser.readAndParse();
             assertEquals("event", cmd.getCmd());
             assertEquals("fam's birthday", cmd.getArgs());
-            assertEquals(1, cmd.getKwargs().size());
+            assertEquals(3, cmd.getKwargs().size());
 
             cmd = parser.readAndParse();
             assertEquals("todo", cmd.getCmd());

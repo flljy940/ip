@@ -2,6 +2,7 @@ package rocky.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import rocky.exception.RockyException;
 
@@ -37,6 +38,20 @@ public class TaskList {
      */
     public void addTask(Task task) {
         this.list.add(task);
+    }
+
+    /**
+     * Filter TaskList for  Tasks whose names contain the search string
+     *
+     * @param search substring to search for
+     * @return filtered TaskList
+     */
+    public TaskList searchTasks(String search) {
+        return new TaskList(
+                this.list.stream()
+                        .filter(task -> task.getTask().contains(search))
+                        .collect(Collectors.toList())
+        );
     }
 
     /**
