@@ -102,7 +102,8 @@ public class Rocky {
 
             case "event":
                 String eventName = action.getArgs();
-                String[] eventTime = action.getKwargs().get("at").trim().split("\\s+");
+//                String[] eventTime = action.getKwargs().get("at").trim().split("\\s+");
+                String[] eventTime = action.getKwargs().get("at").split(" ");
                 String eventDate = eventTime[0];
                 String timeRange = eventTime[1];
                 Event event = new Event(eventName, eventDate, timeRange);

@@ -36,7 +36,7 @@ public class Parser {
         this.input = input;
     }
 
-    private static Command parseCommand(String line) throws RockyException {
+    public static Command parseCommand(String line) throws RockyException {
         String cmdName = line.split(" ")[0];
         for (String[] cmd : COMMANDS) {
             // Not the target command
