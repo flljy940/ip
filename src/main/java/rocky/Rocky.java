@@ -63,27 +63,32 @@ public class Rocky {
                 Ui.say(tasks.toString());
                 break;
 
-            case "mark":
-                int mark_idx = Integer.parseInt(action.getArgs()) - 1;
-                tasks.markTask(mark_idx);
-                Ui.say("Nice! Marked as done:\n"
-                        + tasks.getTask(mark_idx));
-                break;
+        case "find":
+            String pattern = action.getArgs();
+            Ui.say("Here are the matching tasks in your list:\n" +
+                    tasks.searchTasks(pattern).toString());
 
-            case "unmark":
-                int unmark_idx = Integer.parseInt(action.getArgs()) - 1;
-                tasks.unmarkTask(unmark_idx);
-                Ui.say("OK, marked as not done yet:\n"
-                        + tasks.getTask(unmark_idx));
-                break;
+        case "mark":
+            int mark_idx = Integer.parseInt(action.getArgs()) - 1;
+            tasks.markTask(mark_idx);
+            Ui.say("Nice! Marked as done:\n"
+                    + tasks.getTask(mark_idx));
+            break;
 
-            case "delete":
-                int dlt_idx = Integer.parseInt(action.getArgs()) - 1;
-                Task deletedTask = tasks.deleteTask(dlt_idx);
-                Ui.say("Noted. Task removed:\n"
-                        + deletedTask
-                        + "\nNow you have " + tasks.size() + " tasks in your list");
-                break;
+        case "unmark":
+            int unmark_idx = Integer.parseInt(action.getArgs()) - 1;
+            tasks.unmarkTask(unmark_idx);
+            Ui.say("OK, marked as not done yet:\n"
+                    + tasks.getTask(unmark_idx));
+            break;
+
+        case "delete":
+            int dlt_idx = Integer.parseInt(action.getArgs()) - 1;
+            Task deletedTask = tasks.deleteTask(dlt_idx);
+            Ui.say("Noted. Task removed:\n"
+                    + deletedTask
+                    + "\nNow you have " + tasks.size() + " tasks in your list");
+            break;
 
             case "todo":
                 String todoName = action.getArgs();

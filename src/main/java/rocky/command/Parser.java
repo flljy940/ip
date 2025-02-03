@@ -14,8 +14,9 @@ public class Parser {
     private static final String[][] COMMANDS = {
             { "bye", "bye", "bye" },
             { "list", "list", "list" },
-            { "mark", "mark (\\d+)", "mark <rocky.task number>" },
-            { "unmark", "unmark (\\d+)", "unmark <rocky.task number>" },
+            { "find", "find (.*)", "find <some string>" },
+            { "mark", "mark (\\d+)", "mark <task number>" },
+            { "unmark", "unmark (\\d+)", "unmark <task number>" },
             { "todo", "todo (.*)", "todo <description>" },
             {
                     "deadline",
@@ -27,7 +28,7 @@ public class Parser {
                     "event (.*) /(at) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4}) (([01][0-9]|2[0-3])[0-5][0-9])-(([01][0-9]|2[0-3])[0-5][0-9])",
                     "event <description> /at <d/M/yyyy> <HHmm-HHmm>"
             },
-            { "delete", "delete (\\d+)", "delete <rocky.task number>" },
+            { "delete", "delete (\\d+)", "delete <task number>" },
     };
 
     private final Scanner input;
