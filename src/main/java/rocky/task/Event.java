@@ -7,15 +7,42 @@ import java.time.format.DateTimeParseException;
 
 import rocky.command.Parser;
 
+/**
+ * Encapsulates behavior of Event type of Task
+ */
 public class Event extends Task {
     protected LocalDate date;
     protected LocalTime startTime;
     protected LocalTime endTime;
+
+    /**
+     * Date format for user input
+     */
     protected static final DateTimeFormatter dateFmt = DateTimeFormatter.ofPattern("d/M/yyyy");
+
+    /**
+     * Time format for user input
+     */
     protected static final DateTimeFormatter timeFmt = DateTimeFormatter.ofPattern("HHmm");
+
+    /**
+     * Date format for output
+     */
     protected static final DateTimeFormatter outputDateFmt = DateTimeFormatter.ofPattern("MMM dd yyyy");
+
+    /**
+     * Time format for output
+     */
     protected static final DateTimeFormatter outputTimeFmt = DateTimeFormatter.ofPattern("h:mm a");
 
+    /**
+     * Instantiates Event object with date string and time range string
+     *
+     * @param name name for Event
+     * @param date date of Event (in d/M/yyyy format)
+     * @param timeRange time range of Event (in HHmm-HHmm format)
+     * @throws DateTimeParseException date format error
+     */
     public Event(String name, String date, String timeRange) throws DateTimeParseException{
         super(name, 'E');
         this.date = LocalDate.parse(date, dateFmt);
@@ -29,6 +56,15 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * Instantiates Event object with date string, time range string and status
+     *
+     * @param name name for Event
+     * @param date date of Event (in d/M/yyyy format)
+     * @param timeRange time range of Event (in HHmm-HHmm format)
+     * @param isDone status of completion
+     * @throws DateTimeParseException date format error
+     */
     public Event(String name, String date, String timeRange, boolean isDone) throws DateTimeParseException {
         super(name, 'E', isDone);
         this.date = LocalDate.parse(date, dateFmt);
@@ -42,6 +78,14 @@ public class Event extends Task {
         }
     }
 
+    /**
+     * Instantiates Event object
+     *
+     * @param name name for Event
+     * @param date date of Event
+     * @param startTime starting time for Event
+     * @param endTime ending time for Event
+     */
     public Event(String name, LocalDate date, LocalTime startTime, LocalTime endTime) {
         super(name);
         this.date = date;
@@ -49,6 +93,15 @@ public class Event extends Task {
         this.endTime = endTime;
     }
 
+    /**
+     * Instantiates Event object with status
+     *
+     * @param name name for Event
+     * @param date date of Event
+     * @param startTime starting time for Event
+     * @param endTime ending time for Event
+     * @param isDone status
+     */
     public Event(String name, LocalDate date, LocalTime startTime, LocalTime endTime, boolean isDone) {
         super(name, 'E', isDone);
         this.date = date;
@@ -56,6 +109,11 @@ public class Event extends Task {
         this.endTime = endTime;
     }
 
+    /**
+     * Returns the type, status, name, date, and time of the Event, formatted
+     *
+     * @return formatted string of the Event info
+     */
     @Override
     public String toString() {
         return "[E]" + super.toString() +
@@ -65,6 +123,11 @@ public class Event extends Task {
                         this.endTime.format(outputTimeFmt));
     }
 
+    /**
+     * Parses a formatted string from file storage, then returns the Event object
+     *
+     * @return Event object represented by the string
+     */
     @Override
     public String toFileSaveFormat() {
         return String.format("%s|%s %s-%s",

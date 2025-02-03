@@ -8,9 +8,23 @@ import java.time.format.DateTimeFormatter;
 
 import rocky.exception.RockyException;
 
+/**
+ * Class to encapsulate methods related to parsing user input
+ * Contains available commands and their relative syntax
+ */
 public class Parser {
+    /**
+     * Date format for parsing from user input, file i/o
+     */
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
 
+    /**
+     * Avaiable commands, their syntax (in regex), and usage documentation
+     *
+     * NOTE: syntax convention should be below
+     * Semantics: command-name arg [[/key kwargs] ... ]
+     * Regex: command-name (.*) (/[.+]) (.*))*
+     */
     private static final String[][] COMMANDS = {
             { "bye", "bye", "bye" },
             { "list", "list", "list" },
@@ -30,12 +44,27 @@ public class Parser {
             { "delete", "delete (\\d+)", "delete <rocky.task number>" },
     };
 
+    /**
+     * User input
+     */
     private final Scanner input;
 
+    /**
+     * Instantiates Parser object with user input
+     *
+     * @param input user input
+     */
     public Parser(Scanner input) {
         this.input = input;
     }
 
+    /**
+     * Checks whether a command matches
+     *
+     * @param line command line to check validity
+     * @return validity of the command
+     * @throws RockyException invalid command or syntax
+     */
     public static Command parseCommand(String line) throws RockyException {
         String cmdName = line.split(" ")[0];
         for (String[] cmd : COMMANDS) {

@@ -11,41 +11,68 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
+/**
+ * Class to abstract and encapsulate file interactions for Rocky.
+ *
+ * File format:
+ * type|<0 or 1>|name[|additional arguments...]</0>
+ */
 public class Storage {
     protected String filename;
     protected File file;
 
+    /**
+     * Instantiates a FileManager
+     *
+     * @param filename path to file of interaction
+     */
     public Storage(String filename) {
         this.filename = filename;
         this.file = new File(filename);
     }
 
+    /**
+     * Checks the existence of the file, creates it if it doesn't exist
+     *
+     * @throws IOException cannot create directories
+     */
+    private void checkOrCreateFile() throws IOException {
+        if (!this.file.exists()) {
+            this.file.getParentFile().mkdirs();
+            this.file.createNewFile();
+        }
+    }
+
+    /**
+     * Saves Tasks to file in a standard format
+     *
+     * @param taskList list of Tasks to save
+     * @throws IOException file access error
+     */
     public void saveTasks(TaskList taskList) throws IOException {
         FileWriter fileWriter = new FileWriter(this.filename, false);
         fileWriter.write(taskList.listFileSaveFormat());
         fileWriter.close();
     }
 
+    /**
+     * Loads Tasks from file
+     *
+     * @return TaskList populated with data from file
+     * @throws IOException file access error
+     * @throws RockyException when format error is present in file
+     */
     public TaskList loadTasks() throws IOException, RockyException {
-        // If file doesn't exist, create it
-        if (!this.file.exists()) {
-            this.file.getParentFile().mkdirs(); // Create directories if needed
-            this.file.createNewFile(); // Create an empty file
-        }
-
         try {
             Scanner fileReader = new Scanner(this.file);
 
             TaskList taskList = new TaskList();
-            while (fileReader.hasNextLine()) {
+            for (int i = 1; fileReader.hasNextLine(); i++) {
                 try {
-                    String line = fileReader.nextLine().trim();
-                    if (!line.isEmpty()) {
-                        Task task = Task.parseFileSaveFormat(line);
-                        taskList.addTask(task);
-                    }
+                    Task task = Task.parseFileSaveFormat(fileReader.nextLine());
+                    taskList.addTask(task);
                 } catch (RockyException e) {
-                    throw new RockyException("Error parsing task: " + e.getMessage());
+                    throw new RockyException("Wrong format in line %d", i);
                 }
             }
             fileReader.close();

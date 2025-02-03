@@ -18,11 +18,50 @@ import rocky.ui.Ui;
 
 import rocky.exception.RockyException;
 
+/**
+ * Main class that abstracts the implementation of task list chatbot
+ */
 public class Rocky {
+    /**
+     * List of Tasks
+     */
     private static TaskList tasks;
+
+    /**
+     * Storage component for load/save Tasks upon program start/end
+     */
     private static Storage storage;
+
+    /**
+     * Parser for handling user input
+     * Contains predefined command list and syntax
+     */
     private static final Parser cmd = new Parser(new Scanner(System.in));
+
+    /**
+     * Ui component for displaying text in format and color
+     */
     private static final Ui ui = new Ui();
+
+    /**
+     * Construct a Rocky instance
+     *
+     * @param filename File to load and save Tasks
+     */
+    public Rocky(String filename) {
+        Ui.rocky();
+
+        String introduction = "Hello, I'm Rocky\n" + "What can I do for you?";
+        Ui.say(introduction);
+
+        try {
+            storage = new Storage(filename);
+            tasks = storage.loadTasks();
+        } catch (IOException | RockyException e) {
+            ui.warning("[!] Error reading file - initializing task list as empty list");
+            tasks = new TaskList();
+        }
+    }
 
     private static int parseIndex(String input) throws RockyException {
         try {
@@ -102,10 +141,10 @@ public class Rocky {
 
             case "event":
                 String eventName = action.getArgs();
-//                String[] eventTime = action.getKwargs().get("at").trim().split("\\s+");
-                String[] eventTime = action.getKwargs().get("at").split(" ");
-                String eventDate = eventTime[0];
-                String timeRange = eventTime[1];
+                String eventTime = action.getKwargs().get("at");
+                String[] times = eventTime.split(" ");
+                String eventDate = times[0];
+                String timeRange = times[1];
                 Event event = new Event(eventName, eventDate, timeRange);
                 tasks.addTask(event);
                 Ui.logNewTask(event, tasks.size());
@@ -116,21 +155,9 @@ public class Rocky {
         }
     }
 
-    public Rocky(String filename) {
-        Ui.rocky();
-
-        String introduction = "Hello, I'm Rocky\n" + "What can I do for you?";
-        Ui.say(introduction);
-
-        try {
-            storage = new Storage(filename);
-            tasks = storage.loadTasks();
-        } catch (IOException | RockyException e) {
-            ui.warning("[!] Error reading file - initializing task list as empty list");
-            tasks = new TaskList();
-        }
-    }
-
+    /**
+     * Main driver method to run rocky.Rocky
+     */
     public void run() {
         while (true) {
             try {

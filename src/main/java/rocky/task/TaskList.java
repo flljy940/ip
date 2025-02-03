@@ -5,41 +5,91 @@ import java.util.List;
 
 import rocky.exception.RockyException;
 
+/**
+ * Class to encapsulate the behavior of a List of Tasks
+ */
 public class TaskList {
+    /**
+     * Main data structure to store Task objects
+     */
     private List<Task> list;
 
+    /**
+     * Instantiates an empty TaskList
+     */
     public TaskList() {
         this(new ArrayList<>());
     }
 
+    /**
+     * Instantiates TaskList with List of Tasks
+     *
+     * @param list list of Tasks
+     */
     public TaskList(List<Task> list) {
         this.list = list;
     }
 
+    /**
+     * Adds a Task to existing TaskList
+     *
+     * @param task Task to add
+     */
     public void addTask(Task task) {
         this.list.add(task);
     }
 
+    /**
+     * Marks the Task at specified index (marked as done)
+     *
+     * @param index index of Task to mark
+     * @throws RockyException index out of range
+     */
     public void markTask(int index) throws RockyException {
         checkIndex(index);
         this.list.get(index).markAsDone();
     }
 
+    /**
+     * Unmarks the Task at specified index (marked as undone)
+     * @param index
+     * @throws RockyException
+     */
     public void unmarkTask(int index) throws RockyException {
         checkIndex(index);
-        this.list.get(index).unmarkAsDone();
+        this.list.get(index).markAsUndone();
     }
 
+    /**
+     * Deletes a Task from the existing list
+     *
+     * @param index index of Task to delete
+     * @return the removed Task
+     * @throws RockyException index out of range
+     */
     public Task deleteTask(int index) throws RockyException {
         checkIndex(index);
         return this.list.remove(index);
     }
 
+    /**
+     * Retrieves Task at index
+     *
+     * @param index index of Task to get
+     * @return requested Task
+     * @throws RockyException index out of range
+     */
     public Task getTask(int index) throws RockyException {
         checkIndex(index);
         return this.list.get(index);
     }
 
+    /**
+     * Checks if index is in range of current  list
+     *
+     * @param index index to check
+     * @throws RockyException index out of range
+     */
     private void checkIndex(int index) throws RockyException {
         if (index >= 0 && index < this.size()) {
             return;
@@ -52,10 +102,10 @@ public class TaskList {
         );
     }
 
-    public List<Task> getTasks() {
-        return this.list;
-    }
-
+    /**
+     *
+     * @return size of TaskList
+     */
     public int size() {
         return this.list.size();
     }
@@ -64,6 +114,11 @@ public class TaskList {
         return this.list.isEmpty();
     }
 
+    /**
+     * Returns a string, where each line is a Task formatted for saving to file
+     *
+     * @return formatted string of Tasks for saving to file
+     */
     public String listFileSaveFormat() {
         String result = "";
 
@@ -77,6 +132,11 @@ public class TaskList {
         return result;
     }
 
+    /**
+     * Returns String as an ordered list with the numbering and status of the Task
+     *
+     * @return string representation of TaskList
+     */
     @Override
     public String toString() {
         if (this.list.isEmpty()) {
