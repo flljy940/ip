@@ -36,7 +36,7 @@ public class Storage {
      *
      * @throws IOException cannot create directories
      */
-    private void checkOrCreateFile() throws IOException {
+    private void checkIfNotExist() throws IOException {
         if (!this.file.exists()) {
             this.file.getParentFile().mkdirs();
             this.file.createNewFile();
@@ -50,6 +50,7 @@ public class Storage {
      * @throws IOException file access error
      */
     public void saveTasks(TaskList taskList) throws IOException {
+        checkIfNotExist();
         FileWriter fileWriter = new FileWriter(this.filename, false);
         fileWriter.write(taskList.listFileSaveFormat());
         fileWriter.close();
@@ -63,6 +64,8 @@ public class Storage {
      * @throws RockyException when format error is present in file
      */
     public TaskList loadTasks() throws IOException, RockyException {
+        checkIfNotExist();
+
         try {
             Scanner fileReader = new Scanner(this.file);
 
