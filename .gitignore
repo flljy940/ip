@@ -3,6 +3,9 @@
 /out/
 /*.iml
 
+# JAR files
+**/META-INF
+
 # Gradle build files
 /.gradle/
 /build/
