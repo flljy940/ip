@@ -51,7 +51,8 @@ checkstyle {
 
 
 application {
-    mainClass.set("rocky.Rocky")
+//    mainClass.set("rocky.Rocky")
+    mainClass.set("rocky.Launcher")
 }
 
 shadowJar {

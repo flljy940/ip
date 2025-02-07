@@ -46,20 +46,6 @@ public class Parser {
     };
 
     /**
-     * User input
-     */
-    private final Scanner input;
-
-    /**
-     * Instantiates Parser object with user input
-     *
-     * @param input user input
-     */
-    public Parser(Scanner input) {
-        this.input = input;
-    }
-
-    /**
      * Checks whether a command matches
      *
      * @param line command line to check validity
@@ -106,9 +92,9 @@ public class Parser {
         throw new RockyException("What are you trying to do?");
     }
 
-    public Command readAndParse() throws RockyException {
-        String cmdLine = this.input.nextLine();
-        Command cmd = Parser.parseCommand(cmdLine);
-        return cmd;
-    }
+//    public Command readAndParse() throws RockyException {
+//        String cmdLine = this.input.nextLine();
+//        Command cmd = Parser.parseCommand(cmdLine);
+//        return cmd;
+//    }
 }
