@@ -75,7 +75,7 @@ public class Storage {
                     Task task = Task.parseFileSaveFormat(fileReader.nextLine());
                     taskList.addTask(task);
                 } catch (RockyException e) {
-                    throw new RockyException("Wrong format in line %d", i);
+                    throw new RockyException(String.format("Wrong format in line %d", i));
                 }
             }
             fileReader.close();

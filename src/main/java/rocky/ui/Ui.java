@@ -80,6 +80,7 @@ public class Ui {
      * Log the new tasks in the same format
      *
      * @param task task added to be logged
+     * @param taskCount number of tasks
      */
     public static void logNewTask(Task task, int taskCount) {
         say("Got it. I've added this task:\n" +

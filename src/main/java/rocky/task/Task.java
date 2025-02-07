@@ -77,7 +77,7 @@ public class Task {
      *
      * @return name of the Task
      */
-    public String getTask(int index) {
+    public String getTask() {
         return this.task;
     }
 
