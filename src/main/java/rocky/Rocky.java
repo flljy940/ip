@@ -43,6 +43,7 @@ public class Rocky {
      */
     private static final Ui ui = new Ui();
 
+    /** Introduction string */
     String introduction = "Hello, I'm Rocky\n" + "What can I do for you?";
 
     /**
@@ -184,8 +185,7 @@ public class Rocky {
         try {
 //            Command action = cmd.readAndParse();
             Command action = cmd.parseCommand(input);
-            String response = handleActionAndRespond(action);
-            return response;
+            return handleActionAndRespond(action);
         } catch (RockyException e) {
             return e.getLocalizedMessage();
         }
