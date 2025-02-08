@@ -39,8 +39,8 @@ public class Parser {
             },
             {
                     "event",
-                    "event (.*) /(at) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4}) (([01][0-9]|2[0-3])[0-5][0-9])-(([01][0-9]|2[0-3])[0-5][0-9])",
-                    "event <description> /at <d/M/yyyy> <HHmm-HHmm>"
+                    "event (.*) /(at) ((?:[1-9]|[12][0-9]|3[01])/(?:[1-9]|1[0-2])/[0-9]{4} ([01][0-9]|2[0-3])[0-5][0-9]-([01][0-9]|2[0-3])[0-5][0-9])",
+            "event <description> /at <d/M/yyyy> <HHmm-HHmm>"
             },
             { "delete", "delete (\\d+)", "delete <task number>" },
     };
@@ -54,6 +54,7 @@ public class Parser {
      */
     public static Command parseCommand(String line) throws RockyException {
         String cmdName = line.split(" ")[0];
+        System.out.println("Command: " + cmdName);
         for (String[] cmd : COMMANDS) {
             // Not the target command
             if (!cmdName.equals(cmd[0])) {
@@ -79,12 +80,14 @@ public class Parser {
 
             // Match args
             String arg = matcher.group(1);
+            System.out.println("Arg: " + arg);
             HashMap<String, String> kwargs = new HashMap<>();
 
             // Match kwargs
             for (int i = 2; i < matcher.groupCount(); i += 2) {
                 kwargs.put(matcher.group(i), matcher.group(i + 1));
             }
+            System.out.println("Kwargs: " + kwargs);
 
             return new Command(cmdName, arg, kwargs);
         }

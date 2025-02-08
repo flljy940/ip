@@ -45,15 +45,7 @@ public class Event extends Task {
      */
     public Event(String name, String date, String timeRange) throws DateTimeParseException{
         super(name, 'E');
-        this.date = LocalDate.parse(date, dateFmt);
-
-        String[] times = timeRange.split("-");
-        if (times.length == 2) {
-            this.startTime = LocalTime.parse(times[0], timeFmt);
-            this.endTime = LocalTime.parse(times[1], timeFmt);
-        } else {
-            throw new DateTimeParseException("Invalid time range", timeRange, 0);
-        }
+        parseDateTime(date, timeRange);
     }
 
     /**
@@ -67,15 +59,7 @@ public class Event extends Task {
      */
     public Event(String name, String date, String timeRange, boolean isDone) throws DateTimeParseException {
         super(name, 'E', isDone);
-        this.date = LocalDate.parse(date, dateFmt);
-
-        String[] times = timeRange.split("-");
-        if (times.length == 2) {
-            this.startTime = LocalTime.parse(times[0], timeFmt);
-            this.endTime = LocalTime.parse(times[1], timeFmt);
-        } else {
-            throw new DateTimeParseException("Invalid time range", timeRange, 0);
-        }
+        parseDateTime(date, timeRange);
     }
 
     /**
@@ -107,6 +91,17 @@ public class Event extends Task {
         this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
+    }
+
+    private void parseDateTime(String date, String timeRange) throws DateTimeParseException {
+        this.date = LocalDate.parse(date, dateFmt);
+        String[] times = timeRange.split("-");
+        if (times.length == 2) {
+            this.startTime = LocalTime.parse(times[0], timeFmt);
+            this.endTime = LocalTime.parse(times[1], timeFmt);
+        } else {
+            throw new DateTimeParseException("Invalid time range", timeRange, 0);
+        }
     }
 
     /**

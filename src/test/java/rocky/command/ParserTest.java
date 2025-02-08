@@ -10,39 +10,33 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 public class ParserTest {
     @Test
-    public void readAndParse() {
-        String input = "list\n"
-                + "event fam's birthday /at 13/12/2025 1700-2200\n"
-                + "todo buy picnic mat\n"
-                + "delete 2\n"
-                + "unmark 3";
-
-        Parser parser = new Parser(new Scanner(input));
+    public void parseCommand() {
+        Parser parser = new Parser();
 
         try {
             Command cmd;
 
-            cmd = parser.readAndParse();
+            cmd = parser.parseCommand("list");
             assertEquals("list", cmd.getCmd());
             assertEquals("", cmd.getArgs());
             assertEquals(0, cmd.getKwargs().size());
 
-            cmd = parser.readAndParse();
+            cmd = parser.parseCommand("event bff's birthday /at 7/3/2025 1600-2100");
             assertEquals("event", cmd.getCmd());
-            assertEquals("fam's birthday", cmd.getArgs());
+            assertEquals("bff's birthday", cmd.getArgs());
             assertEquals(3, cmd.getKwargs().size());
 
-            cmd = parser.readAndParse();
+            cmd = parser.parseCommand("todo buy picnic mat");
             assertEquals("todo", cmd.getCmd());
             assertEquals("buy picnic mat", cmd.getArgs());
             assertEquals(0, cmd.getKwargs().size());
 
-            cmd = parser.readAndParse();
+            cmd = parser.parseCommand("delete 2");
             assertEquals("delete", cmd.getCmd());
             assertEquals("2", cmd.getArgs());
             assertEquals(0, cmd.getKwargs().size());
 
-            cmd = parser.readAndParse();
+            cmd = parser.parseCommand("unmark 3");
             assertEquals("unmark", cmd.getCmd());
             assertEquals("3", cmd.getArgs());
             assertEquals(0, cmd.getKwargs().size());
@@ -54,7 +48,7 @@ public class ParserTest {
     @Test
     public void readAndParseInvalid() {
         String input = "deadline ahhh /by Sunday";
-        Parser parser = new Parser(new Scanner(input));
-        assertThrows(RockyException.class, () -> parser.readAndParse());
+        Parser parser = new Parser();
+        assertThrows(RockyException.class, () -> parser.parseCommand(input));
     }
 }

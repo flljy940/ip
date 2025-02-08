@@ -158,9 +158,11 @@ public class Rocky {
             case "event":
                 String eventName = action.getArgs();
                 String eventTime = action.getKwargs().get("at");
-                String[] times = eventTime.split(" ");
-                String eventDate = times[0];
-                String timeRange = times[1];
+                if (eventTime == null) {
+                    throw new RockyException("Missing event time. Usage: event <description> /at <d/M/yyyy> <HHmm-HHmm>");
+                }
+                String eventDate = eventTime.substring(0, eventTime.indexOf(" "));
+                String timeRange = eventTime.substring(eventTime.indexOf(" ") + 1);
                 Event event = new Event(eventName, eventDate, timeRange);
                 tasks.addTask(event);
 //                Ui.logNewTask(event, tasks.size());
