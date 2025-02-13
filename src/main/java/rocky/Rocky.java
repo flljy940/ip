@@ -1,7 +1,6 @@
 package rocky;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 import rocky.task.TaskList;
 import rocky.task.Task;
@@ -178,7 +177,7 @@ public class Rocky {
     }
 
     /**
-     * Interaction method to pass input to Rocky and get response
+     * Responds to input passed by user to input
      *
      * @param input input from user
      * @return return response

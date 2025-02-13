@@ -3,8 +3,6 @@ package rocky.command;
 import rocky.exception.RockyException;
 import org.junit.jupiter.api.Test;
 
-import java.util.Scanner;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 

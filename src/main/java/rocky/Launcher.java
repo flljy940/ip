@@ -1,7 +1,6 @@
 package rocky;
 
 import javafx.application.Application;
-import javafx.scene.text.Font;
 
 /**
  * A launcher class to workaround classpath issues

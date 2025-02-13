@@ -75,6 +75,14 @@ public class Storage {
         }
     }
 
+    /**
+     * Loads a TaskList from a Scanner object.
+     * Each line of the Scanner should represent a Task
+     *
+     * @param scanner Scanner object to load from
+     * @return loaded TaskList
+     * @throws RockyException when format error is present in a Scanner line
+     */
     private TaskList loadTaskListFromScanner(Scanner scanner) throws RockyException {
         TaskList taskList = new TaskList();
         for (int i = 1; scanner.hasNextLine(); i++) {
