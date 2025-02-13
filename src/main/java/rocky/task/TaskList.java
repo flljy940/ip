@@ -171,6 +171,11 @@ public class TaskList {
                 res += "\n";
             }
         }
+
+        // Empty list case is handled above, result should have been
+        // populated with non-zero amount of items
+        assert !res.isEmpty();
+
         return res;
     }
 }

@@ -20,6 +20,7 @@ public class Ui {
      * Log the addition of tasks in the same format
      *
      * @param task task added to be logged
+     * @return string representation of task added
      */
     public String getNewTaskResponse(Task task) {
         return String.format(
