@@ -68,20 +68,23 @@ public class Storage {
 
         try {
             Scanner fileReader = new Scanner(this.file);
-
-            TaskList taskList = new TaskList();
-            for (int i = 1; fileReader.hasNextLine(); i++) {
-                try {
-                    Task task = Task.parseFileSaveFormat(fileReader.nextLine());
-                    taskList.addTask(task);
-                } catch (RockyException e) {
-                    throw new RockyException(String.format("Wrong format in line %d", i));
-                }
-            }
-            fileReader.close();
-            return taskList;
+            return loadFromScanner(fileReader);
         } catch (FileNotFoundException e) {
             return new TaskList();
         }
+    }
+
+    private TaskList loadFromScanner(Scanner scanner) throws RockyException {
+        TaskList taskList = new TaskList();
+        for (int i = 1; scanner.hasNextLine(); i++) {
+            try {
+                Task task = Task.parseFileSaveFormat(scanner.nextLine());
+                taskList.addTask(task);
+            } catch (RockyException e) {
+                throw new RockyException(String.format("Wrong format in line %d", i));
+            }
+        }
+        scanner.close();
+        return taskList;
     }
 }

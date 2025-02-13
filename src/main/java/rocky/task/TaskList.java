@@ -135,16 +135,16 @@ public class TaskList {
      * @return formatted string of Tasks for saving to file
      */
     public String listFileSaveFormat() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < this.size(); i++) {
-            result += this.list.get(i).toFileSaveFormat();
+            result.append(this.list.get(i).toFileSaveFormat());
 
             if (i != this.size() - 1) {
-                result += "\n";
+                result.append("\n");
             }
         }
-        return result;
+        return result.toString();
     }
 
     /**
