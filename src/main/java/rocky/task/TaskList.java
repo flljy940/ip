@@ -125,10 +125,6 @@ public class TaskList {
         return this.list.size();
     }
 
-    public boolean isEmpty() {
-        return this.list.isEmpty();
-    }
-
     /**
      * Returns a string, where each line is a Task formatted for saving to file
      *
@@ -171,6 +167,10 @@ public class TaskList {
                 res.append("\n");
             }
         }
+        // Empty list case is handled above, result should have been
+        // populated with non-zero amount of items
+        assert !res.isEmpty();
+
         return res.toString();
     }
 }

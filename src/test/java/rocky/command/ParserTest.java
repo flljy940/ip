@@ -3,6 +3,8 @@ package rocky.command;
 import rocky.exception.RockyException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Scanner;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
@@ -22,7 +24,7 @@ public class ParserTest {
             cmd = parser.parseCommand("event bff's birthday /at 7/3/2025 1600-2100");
             assertEquals("event", cmd.getCmd());
             assertEquals("bff's birthday", cmd.getArgs());
-            assertEquals(2, cmd.getKwargs().size());
+            assertEquals(3, cmd.getKwargs().size());
 
             cmd = parser.parseCommand("deadline project proposal /by 20/2/2025");
             assertEquals("deadline", cmd.getCmd());

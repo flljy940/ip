@@ -145,6 +145,10 @@ public class Rocky {
             throw new RockyException("Sry!! I don't know what that means\uD83E\uDD7A");
         }
 
+        // All valid command handler should give a response
+        // Else, an exception should have been raised
+        assert !response.isEmpty();
+
         return response;
     }
 
