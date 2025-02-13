@@ -22,7 +22,12 @@ public class ParserTest {
             cmd = parser.parseCommand("event bff's birthday /at 7/3/2025 1600-2100");
             assertEquals("event", cmd.getCmd());
             assertEquals("bff's birthday", cmd.getArgs());
-            assertEquals(3, cmd.getKwargs().size());
+            assertEquals(2, cmd.getKwargs().size());
+
+            cmd = parser.parseCommand("deadline project proposal /by 20/2/2025");
+            assertEquals("deadline", cmd.getCmd());
+            assertEquals("project proposal", cmd.getArgs());
+            assertEquals(1, cmd.getKwargs().size());
 
             cmd = parser.parseCommand("todo buy picnic mat");
             assertEquals("todo", cmd.getCmd());
