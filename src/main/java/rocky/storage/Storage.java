@@ -69,13 +69,13 @@ public class Storage {
 
         try {
             Scanner fileReader = new Scanner(this.file);
-            return loadFromScanner(fileReader);
+            return loadTaskListFromScanner(fileReader);
         } catch (FileNotFoundException e) {
             return new TaskList();
         }
     }
 
-    private TaskList loadFromScanner(Scanner scanner) throws RockyException {
+    private TaskList loadTaskListFromScanner(Scanner scanner) throws RockyException {
         TaskList taskList = new TaskList();
         for (int i = 1; scanner.hasNextLine(); i++) {
             try {
