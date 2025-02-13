@@ -5,8 +5,6 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 
-import rocky.command.Parser;
-
 /**
  * Encapsulates behavior of Event type of Task
  */
@@ -60,37 +58,6 @@ public class Event extends Task {
     public Event(String name, String date, String timeRange, boolean isDone) throws DateTimeParseException {
         super(name, 'E', isDone);
         parseDateTime(date, timeRange);
-    }
-
-    /**
-     * Instantiates Event object
-     *
-     * @param name name for Event
-     * @param date date of Event
-     * @param startTime starting time for Event
-     * @param endTime ending time for Event
-     */
-    public Event(String name, LocalDate date, LocalTime startTime, LocalTime endTime) {
-        super(name);
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    /**
-     * Instantiates Event object with status
-     *
-     * @param name name for Event
-     * @param date date of Event
-     * @param startTime starting time for Event
-     * @param endTime ending time for Event
-     * @param isDone status
-     */
-    public Event(String name, LocalDate date, LocalTime startTime, LocalTime endTime, boolean isDone) {
-        super(name, 'E', isDone);
-        this.date = date;
-        this.startTime = startTime;
-        this.endTime = endTime;
     }
 
     private void parseDateTime(String date, String timeRange) throws DateTimeParseException {

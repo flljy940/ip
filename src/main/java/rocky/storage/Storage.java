@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 /**
  * Class to abstract and encapsulate file interactions for Rocky.
- *
  * File format:
  * type|<0 or 1>|name[|additional arguments...]</0>
  */

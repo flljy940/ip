@@ -13,7 +13,7 @@ public class TaskList {
     /**
      * Main data structure to store Task objects
      */
-    private List<Task> list;
+    private final List<Task> list;
 
     /**
      * Instantiates an empty TaskList
@@ -67,8 +67,8 @@ public class TaskList {
 
     /**
      * Unmarks the Task at specified index (marked as undone)
-     * @param index
-     * @throws RockyException
+     * @param index index of task
+     * @throws RockyException exception if index is out of bound
      */
     public void unmarkTask(int index) throws RockyException {
         checkIndex(index);
@@ -158,19 +158,19 @@ public class TaskList {
             return "Your task list is empty. Please add at least one task.";
         }
 
-        String res = "Here are the tasks in your list:\n";
+        StringBuilder res = new StringBuilder("Here are the tasks in your list:\n");
 
         for (int i = 0; i < this.list.size(); i++) {
-            res += String.format(
+            res.append(String.format(
                     "%d. %s",
                     i + 1,
                     this.list.get(i)
-            );
+            ));
 
             if (i != this.list.size() - 1) {
-                res += "\n";
+                res.append("\n");
             }
         }
-        return res;
+        return res.toString();
     }
 }

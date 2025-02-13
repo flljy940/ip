@@ -38,29 +38,6 @@ public class Deadline extends Task {
     }
 
     /**
-     * Instantiates Deadline object
-     *
-     * @param task name for Deadline task
-     * @param dueDate date of Deadline
-     */
-    public Deadline(String task, LocalDate dueDate) {
-        super(task, 'D');
-        this.dueDate = dueDate;
-    }
-
-    /**
-     * Instantiates Deadline object with status
-     *
-     * @param task name for Deadline task
-     * @param dueDate date of Deadline
-     * @param isDone status of completion
-     */
-    public Deadline(String task, LocalDate dueDate, boolean isDone) {
-        super(task, 'D', isDone);
-        this.dueDate = dueDate;
-    }
-
-    /**
      * Returns the type, status, name, and date of the Deadline, formatted
      *
      * @return formatted string of the Deadline info

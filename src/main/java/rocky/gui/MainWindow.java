@@ -14,7 +14,7 @@ import rocky.Rocky;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
-    private static final Font font = new Font("Georgia", 18);
+    private static final Font FONT = new Font("Georgia", 18);
 
     @FXML
     private ScrollPane scrollPane;
@@ -27,8 +27,8 @@ public class MainWindow extends AnchorPane {
 
     private Rocky rocky;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/RylandGrace.png"));
-    private Image rockyImage = new Image(this.getClass().getResourceAsStream("/images/Rocky.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/RylandGrace.png"));
+    private final Image rockyImage = new Image(this.getClass().getResourceAsStream("/images/Rocky.png"));
 
     /**
      * Initializes window GUI settings

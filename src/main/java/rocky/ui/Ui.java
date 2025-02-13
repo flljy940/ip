@@ -6,12 +6,13 @@ import rocky.task.TaskList;
 public class Ui {
     /**
      * Logs the list of Tasks in TaskList's string representation format
-     * @param tasks
-     * @return
+     * @param tasks List of tasks
+     * @return formatted string
      */
     public String getListReport(TaskList tasks) {
         return String.format(
-                "Total %d found:\n"
+                "Here are the matching tasks in your list.\n" +
+                        "Total %d found:\n"
                 + tasks.toString(),
                 tasks.size()
         );
@@ -45,24 +46,36 @@ public class Ui {
      * Logs the deletion of task from the list
      *
      * @param task deleted Task
+     * @param taskCount size of task list
      * @return formatted string
      */
-    public String getDeletedTaskResponse(Task task) {
+    public String getDeletedTaskResponse(Task task, int taskCount) {
         return String.format(
-                "Removed this task:\n"
-                + "\t%s\n",
-                task.toString()
+                "Ok! Task removed:\n"
+                + "\t%s\n" + "Now you have %d tasks in the list.",
+                task.toString(), taskCount
         );
     }
 
     /**
-     * Logs the updating of task from the list
+     * Logs the task as done from the list
      *
-     * @param task updated Task
+     * @param task marked Task
      * @return formatted string
      */
-    public String getUpdateTaskResponse(Task task) {
-        return "Updated the following task\n"
+    public String getMarkTaskResponse(Task task) {
+        return "Nice! Marked as done:\n"
+                + "\t" + task.toString();
+    }
+
+    /**
+     * Logs the task as undone from the list
+     *
+     * @param task unmarked Task
+     * @return formatted string
+     */
+    public String getUnmarkTaskResponse(Task task) {
+        return "OK, marked as not done yet:\n"
                 + "\t" + task.toString();
     }
 }
