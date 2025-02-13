@@ -13,7 +13,6 @@ import java.util.Scanner;
 
 /**
  * Class to abstract and encapsulate file interactions for Rocky.
- *
  * File format:
  * type|<0 or 1>|name[|additional arguments...]</0>
  */
@@ -36,11 +35,12 @@ public class Storage {
      *
      * @throws IOException cannot create directories
      */
-    private void checkIfNotExist() throws IOException {
-        if (!this.file.exists()) {
-            this.file.getParentFile().mkdirs();
-            this.file.createNewFile();
+    private void createIfNotExist() throws IOException {
+        if (this.file.exists()) {
+            return;
         }
+        this.file.getParentFile().mkdirs();
+        this.file.createNewFile();
     }
 
     /**
@@ -50,7 +50,7 @@ public class Storage {
      * @throws IOException file access error
      */
     public void saveTasks(TaskList taskList) throws IOException {
-        checkIfNotExist();
+        createIfNotExist();
         FileWriter fileWriter = new FileWriter(this.filename, false);
         fileWriter.write(taskList.listFileSaveFormat());
         fileWriter.close();
@@ -64,24 +64,35 @@ public class Storage {
      * @throws RockyException when format error is present in file
      */
     public TaskList loadTasks() throws IOException, RockyException {
-        checkIfNotExist();
+        createIfNotExist();
 
         try {
             Scanner fileReader = new Scanner(this.file);
-
-            TaskList taskList = new TaskList();
-            for (int i = 1; fileReader.hasNextLine(); i++) {
-                try {
-                    Task task = Task.parseFileSaveFormat(fileReader.nextLine());
-                    taskList.addTask(task);
-                } catch (RockyException e) {
-                    throw new RockyException(String.format("Wrong format in line %d", i));
-                }
-            }
-            fileReader.close();
-            return taskList;
+            return loadTaskListFromScanner(fileReader);
         } catch (FileNotFoundException e) {
             return new TaskList();
         }
+    }
+
+    /**
+     * Loads a TaskList from a Scanner object.
+     * Each line of the Scanner should represent a Task
+     *
+     * @param scanner Scanner object to load from
+     * @return loaded TaskList
+     * @throws RockyException when format error is present in a Scanner line
+     */
+    private TaskList loadTaskListFromScanner(Scanner scanner) throws RockyException {
+        TaskList taskList = new TaskList();
+        for (int i = 1; scanner.hasNextLine(); i++) {
+            try {
+                Task task = Task.parseFileSaveFormat(scanner.nextLine());
+                taskList.addTask(task);
+            } catch (RockyException e) {
+                throw new RockyException(String.format("Wrong format in line %d", i));
+            }
+        }
+        scanner.close();
+        return taskList;
     }
 }

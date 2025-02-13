@@ -14,7 +14,7 @@ import rocky.gui.MainWindow;
  */
 public class Main extends Application {
 
-    private Rocky rocky = new Rocky("data/tasks.txt");
+    private final Rocky rocky = new Rocky("data/tasks.txt");
 
     @Override
     public void start(Stage stage) {

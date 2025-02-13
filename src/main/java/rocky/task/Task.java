@@ -22,31 +22,6 @@ public class Task {
     private final char type;
 
     /**
-     * Instantiates Task with name and status
-     * Default type is ' ' and default status is false
-     *
-     * @param task name of Task
-     */
-    public Task(String task) {
-        this.task = task;
-        this.type = ' ';
-        this.isDone = false;
-    }
-
-    /**
-     * Instantiates Task with name and type
-     * Default type is ' '
-     *
-     * @param task name of Task
-     * @param isDone status of completion of Task
-     */
-    public Task(String task, boolean isDone) {
-        this.task = task;
-        this.type = ' ';
-        this.isDone = isDone;
-    }
-
-    /**
      * Instantiates Task with name and type
      * Default status is false
      *
@@ -79,15 +54,6 @@ public class Task {
      */
     public String getTask() {
         return this.task;
-    }
-
-    /**
-     * Getter for the type of the Task
-     *
-     * @return type of the Task
-     */
-    public char getTaskType() {
-        return this.type;
     }
 
     /**
@@ -152,7 +118,7 @@ public class Task {
         boolean isDone = taskDetails[1].equals("1");
         String taskName = taskDetails[2];
 
-        Task task = null;
+        Task task;
 
         switch (taskType) {
         case 'T':
@@ -180,8 +146,6 @@ public class Task {
             break;
 
         default:
-//            task = new Task(taskName, isDone);
-//            break;
             throw new RockyException("Unknown task type");
         }
 

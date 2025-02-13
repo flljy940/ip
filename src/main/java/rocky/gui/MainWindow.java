@@ -14,6 +14,8 @@ import rocky.Rocky;
  * Controller for the main GUI.
  */
 public class MainWindow extends AnchorPane {
+    private static final Font FONT = new Font("Georgia", 18);
+
     @FXML
     private ScrollPane scrollPane;
     @FXML
@@ -23,13 +25,14 @@ public class MainWindow extends AnchorPane {
     @FXML
     private Button sendButton;
 
-    private final Font FONT = new Font("Georgia", 18);
-
     private Rocky rocky;
 
-    private Image userImage = new Image(this.getClass().getResourceAsStream("/images/RylandGrace.png"));
-    private Image rockyImage = new Image(this.getClass().getResourceAsStream("/images/Rocky.png"));
+    private final Image userImage = new Image(this.getClass().getResourceAsStream("/images/RylandGrace.png"));
+    private final Image rockyImage = new Image(this.getClass().getResourceAsStream("/images/Rocky.png"));
 
+    /**
+     * Initializes window GUI settings
+     */
     @FXML
     public void initialize() {
         scrollPane.vvalueProperty().bind(dialogContainer.heightProperty());
@@ -38,18 +41,26 @@ public class MainWindow extends AnchorPane {
     }
 
     /**
-     * Injects the Duke instance
-     * @param r rocky
+     * Sets the Rocky object for this window instance
+     * @param r Rocky object to interact with
      */
     public void setRocky(Rocky r) {
         rocky = r;
         rockySpeak(rocky.getIntroduction());
     }
 
+    /**
+     * Adds the message in a user dialog box
+     * @param message message from user
+     */
     private void userSpeak(String message) {
         dialogContainer.getChildren().add(DialogBox.getUserDialog(message, userImage));
     }
 
+    /**
+     * Adds the message in a Rocky dialog box
+     * @param message message from Rocky
+     */
     private void rockySpeak(String message) {
         dialogContainer.getChildren().add(DialogBox.getRockyDialog(message, rockyImage));
     }

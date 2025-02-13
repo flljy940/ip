@@ -1,7 +1,6 @@
 package rocky.command;
 
 import java.util.HashMap;
-import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.time.format.DateTimeFormatter;
@@ -53,8 +52,8 @@ public class Parser {
      * @throws RockyException invalid command or syntax
      */
     public static Command parseCommand(String line) throws RockyException {
-        String cmdName = line.split(" ")[0];
-        System.out.println("Command: " + cmdName);
+        String command = line.split(" ")[0];
+        String cmdName = command.replaceAll("\\s+", " ").trim();
         for (String[] cmd : COMMANDS) {
             // Not the target command
             if (!cmdName.equals(cmd[0])) {
@@ -80,24 +79,16 @@ public class Parser {
 
             // Match args
             String arg = matcher.group(1);
-            System.out.println("Arg: " + arg);
             HashMap<String, String> kwargs = new HashMap<>();
 
             // Match kwargs
             for (int i = 2; i < matcher.groupCount(); i += 2) {
                 kwargs.put(matcher.group(i), matcher.group(i + 1));
             }
-            System.out.println("Kwargs: " + kwargs);
 
             return new Command(cmdName, arg, kwargs);
         }
 
         throw new RockyException("What are you trying to do?");
     }
-
-//    public Command readAndParse() throws RockyException {
-//        String cmdLine = this.input.nextLine();
-//        Command cmd = Parser.parseCommand(cmdLine);
-//        return cmd;
-//    }
 }

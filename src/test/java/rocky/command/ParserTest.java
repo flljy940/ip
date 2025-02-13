@@ -26,6 +26,11 @@ public class ParserTest {
             assertEquals("project proposal", cmd.getArgs());
             assertEquals(1, cmd.getKwargs().size());
 
+            cmd = parser.parseCommand("deadline project proposal /by 20/2/2025");
+            assertEquals("deadline", cmd.getCmd());
+            assertEquals("project proposal", cmd.getArgs());
+            assertEquals(1, cmd.getKwargs().size());
+
             cmd = parser.parseCommand("todo buy picnic mat");
             assertEquals("todo", cmd.getCmd());
             assertEquals("buy picnic mat", cmd.getArgs());

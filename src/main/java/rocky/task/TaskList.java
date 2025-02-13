@@ -13,7 +13,7 @@ public class TaskList {
     /**
      * Main data structure to store Task objects
      */
-    private List<Task> list;
+    private final List<Task> list;
 
     /**
      * Instantiates an empty TaskList
@@ -67,8 +67,8 @@ public class TaskList {
 
     /**
      * Unmarks the Task at specified index (marked as undone)
-     * @param index
-     * @throws RockyException
+     * @param index index of task
+     * @throws RockyException exception if index is out of bound
      */
     public void unmarkTask(int index) throws RockyException {
         checkIndex(index);
@@ -125,26 +125,22 @@ public class TaskList {
         return this.list.size();
     }
 
-    public boolean isEmpty() {
-        return this.list.isEmpty();
-    }
-
     /**
      * Returns a string, where each line is a Task formatted for saving to file
      *
      * @return formatted string of Tasks for saving to file
      */
     public String listFileSaveFormat() {
-        String result = "";
+        StringBuilder result = new StringBuilder();
 
         for (int i = 0; i < this.size(); i++) {
-            result += this.list.get(i).toFileSaveFormat();
+            result.append(this.list.get(i).toFileSaveFormat());
 
             if (i != this.size() - 1) {
-                result += "\n";
+                result.append("\n");
             }
         }
-        return result;
+        return result.toString();
     }
 
     /**
@@ -158,24 +154,23 @@ public class TaskList {
             return "Your task list is empty. Please add at least one task.";
         }
 
-        String res = "Here are the tasks in your list:\n";
+        StringBuilder res = new StringBuilder("Here are the tasks in your list:\n");
 
         for (int i = 0; i < this.list.size(); i++) {
-            res += String.format(
+            res.append(String.format(
                     "%d. %s",
                     i + 1,
                     this.list.get(i)
-            );
+            ));
 
             if (i != this.list.size() - 1) {
-                res += "\n";
+                res.append("\n");
             }
         }
-
         // Empty list case is handled above, result should have been
         // populated with non-zero amount of items
         assert !res.isEmpty();
-
-        return res;
+      
+        return res.toString();
     }
 }

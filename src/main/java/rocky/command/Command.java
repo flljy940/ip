@@ -4,24 +4,24 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Class to capture fields and encapsulate behavior of a Command
- * A Command is parsed from user input
+ * Class to capture fields and encapsulate behavior of a command.
+ * Command is parsed from user input
  */
 public class Command {
     /**
      * Command name
      */
-    private String cmd;
+    private final String cmd;
 
     /**
      * Arguments of Command
      */
-    private String args;
+    private final String args;
 
     /**
      * Keyword arguments
      */
-    private Map<String, String> kwargs;
+    private final Map<String, String> kwargs;
 
     /**
      * Creates a Command object
@@ -31,18 +31,6 @@ public class Command {
     public Command(String cmd) {
         this.cmd = cmd;
         this.args = "";
-        this.kwargs = new HashMap<>();
-    }
-
-    /**
-     * Creates a Command object with arg
-     *
-     * @param cmd name of command
-     * @param arg argument of command
-     */
-    public Command(String cmd, String arg) {
-        this.cmd = cmd;
-        this.args = arg;
         this.kwargs = new HashMap<>();
     }
 
