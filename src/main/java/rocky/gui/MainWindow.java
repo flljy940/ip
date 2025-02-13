@@ -42,10 +42,10 @@ public class MainWindow extends AnchorPane {
 
     /**
      * Sets the Rocky object for this window instance
-     * @param r Rocky object to interact with
+     * @param rocky Rocky object to interact with
      */
-    public void setRocky(Rocky r) {
-        rocky = r;
+    public void setRocky(Rocky rocky) {
+        this.rocky = rocky;
         rockySpeak(rocky.getIntroduction());
     }
 

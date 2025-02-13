@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import me.xdrop.fuzzywuzzy.FuzzySearch;
 import rocky.exception.RockyException;
 
 /**
@@ -48,8 +49,12 @@ public class TaskList {
      */
     public TaskList searchTasks(String search) {
         return new TaskList(
-                this.list.stream()
-                        .filter(task -> task.getTask().contains(search))
+                this.list
+                        .stream()
+                        .filter(task -> {
+                            int similarity = FuzzySearch.partialRatio(search, task.getTask());
+                            return similarity >= 75;
+                        })
                         .collect(Collectors.toList())
         );
     }
