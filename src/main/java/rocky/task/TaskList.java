@@ -48,7 +48,8 @@ public class TaskList {
      */
     public TaskList searchTasks(String search) {
         return new TaskList(
-                this.list.stream()
+                this.list
+                        .stream()
                         .filter(task -> task.getTask().contains(search))
                         .collect(Collectors.toList())
         );
