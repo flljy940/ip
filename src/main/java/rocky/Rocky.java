@@ -22,6 +22,10 @@ import rocky.exception.RockyException;
  */
 public class Rocky {
     /**
+     * Status of Nikki (stopped  or not)
+     */
+    private boolean isStopped = false;
+    /**
      * List of Tasks
      */
     private static TaskList tasks;
@@ -69,17 +73,19 @@ public class Rocky {
      * @return return response after performing action
      * @throws RockyException General exception for invalid user command: invalid command, invalid arguments, etc.
      */
-    private String handleActionAndRespond(Command action) throws RockyException {
+    private String handleActionAndRespond(Command action) throws RockyException, InterruptedException {
         String response;
 
         switch (action.getCmd()) {
         case "bye":
             response = "Bye. Hope to see you again soon!";
+
             try {
                 storage.saveTasks(tasks);
             } catch (IOException e) {
-                response += "Oh... I can't save your tasks to file.";
+                response += "\nOh... I can't save your tasks to file.";
             }
+            isStopped = true;
             break;
 
         case "list":
@@ -160,11 +166,16 @@ public class Rocky {
      */
     public String interact(String input) {
         try {
-//            Command action = cmd.readAndParse();
+            if (isStopped) {
+                throw new RockyException("I've already stopped");
+            }
             Command action = cmd.parseCommand(input);
-            return handleActionAndRespond(action);
+            String response = handleActionAndRespond(action);
+            return response;
         } catch (RockyException e) {
             return e.getLocalizedMessage();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
         }
     }
 
@@ -175,5 +186,13 @@ public class Rocky {
      */
     public String getIntroduction() {
         return introduction;
+    }
+
+    /**
+     * Getter for status of Rocky
+     * @return boolean value for whether Rocky has stopped
+     */
+    public boolean isStopped() {
+        return isStopped;
     }
 }

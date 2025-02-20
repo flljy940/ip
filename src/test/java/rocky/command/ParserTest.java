@@ -36,10 +36,10 @@ public class ParserTest {
             assertEquals("buy picnic mat", cmd.getArgs());
             assertEquals(0, cmd.getKwargs().size());
 
-//            cmd = parser.parseCommand("event bff's birthday /at 7/3/2025 1600-2100");
-//            assertEquals("event", cmd.getCmd());
-//            assertEquals("bff's birthday", cmd.getArgs());
-//            assertEquals(2, cmd.getKwargs().size());
+            cmd = parser.parseCommand("event bff's birthday /at 7/3/2025 1600-2100");
+            assertEquals("event", cmd.getCmd());
+            assertEquals("bff's birthday", cmd.getArgs());
+            assertEquals(2, cmd.getKwargs().size());
 
             cmd = parser.parseCommand("delete 2");
             assertEquals("delete", cmd.getCmd());
