@@ -96,13 +96,14 @@ Format: `list`
 
 ### Find a task: `find`
 Finds tasks in the list whose names (partially) matches the user input.
-> Slight typos will **not** affect the search.
+> - Search is **case insensitive**.
+> - Slight typos will **not** affect the search.
 
 Format `find PATTERN`
 
 Examples:
 - `find comp` returns `fix computer`, `competition prep`
-- `find project` returns `science project`, `project meeting`
+- `find Project` returns `science project`, `project meeting`
 - `find prject` returns `science project`, `project meeting`
 
 <br>
