@@ -56,10 +56,6 @@ Example of usage:
 
 <br>
 
-```
-expected output
-```
-
 ### Adding a Deadline: `deadline`
 Adds an Deadline (on a specific date) to the list.
 
