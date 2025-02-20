@@ -163,7 +163,7 @@ public class TaskList {
 
         for (int i = 0; i < this.list.size(); i++) {
             res.append(String.format(
-                    "%d. %s",
+                    "%3d. %s",
                     i + 1,
                     this.list.get(i)
             ));

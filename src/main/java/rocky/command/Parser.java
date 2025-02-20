@@ -18,11 +18,10 @@ public class Parser {
     public static final DateTimeFormatter DATE_FORMAT = DateTimeFormatter.ofPattern("d/M/yyyy");
 
     /**
-     * Avaiable commands, their syntax (in regex), and usage documentation
-     *
+     * Available commands, their syntax (in regex), and usage documentation
      * NOTE: syntax convention should be below
      * Semantics: command-name arg [[/key kwargs] ... ]
-     * Regex: command-name (.*) (/[.+]) (.*))*
+     * Regex: command-name (.*) (/[.+]) (.*)*
      */
     private static final String[][] COMMANDS = {
             { "bye", "bye", "bye" },

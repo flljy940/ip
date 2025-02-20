@@ -46,7 +46,7 @@ public class DialogBox extends HBox {
         // Reused from https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
         // with some minor modifications
         Rectangle clip = new Rectangle(
-                displayPicture.getFitHeight(), displayPicture.getFitHeight()
+                displayPicture.getFitWidth(), displayPicture.getFitHeight()
         );
         clip.setArcWidth(displayPicture.getFitWidth());
         clip.setArcHeight(displayPicture.getFitHeight());

@@ -61,7 +61,6 @@ public class Rocky {
             storage = new Storage(filename);
             tasks = storage.loadTasks();
         } catch (IOException | RockyException e) {
-//            ui.warning("[!] Error reading file - initializing task list as empty list");
             tasks = new TaskList();
         }
     }
@@ -94,7 +93,7 @@ public class Rocky {
 
         case "find":
             String pattern = action.getArgs();
-            response = ui.getListReport(tasks.searchTasks(pattern));
+            response = ui.getListReport(tasks.searchTasks(pattern.toLowerCase()));
             break;
 
         case "mark":
@@ -170,8 +169,7 @@ public class Rocky {
                 throw new RockyException("I've already stopped");
             }
             Command action = cmd.parseCommand(input);
-            String response = handleActionAndRespond(action);
-            return response;
+            return handleActionAndRespond(action);
         } catch (RockyException e) {
             return e.getLocalizedMessage();
         } catch (InterruptedException e) {

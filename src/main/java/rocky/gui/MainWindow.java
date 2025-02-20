@@ -12,7 +12,7 @@ import javafx.stage.Stage;
 import rocky.Rocky;
 
 /**
- * Controller for the main GUI.
+ * Controller for MainWindow. Provides the layout for the other controls.
  */
 public class MainWindow extends AnchorPane {
     private static final Font FONT = new Font("Georgia", 18);
