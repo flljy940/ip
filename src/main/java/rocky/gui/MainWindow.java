@@ -15,7 +15,7 @@ import rocky.Rocky;
  * Controller for MainWindow. Provides the layout for the other controls.
  */
 public class MainWindow extends AnchorPane {
-    private static final Font FONT = new Font("Georgia", 18);
+    private static final Font FONT = new Font("Georgia", 17);
 
     @FXML
     private ScrollPane scrollPane;
