@@ -1,28 +1,23 @@
 # Rocky User Guide
-
-// Update the title above to match the actual product name
-
-// Product screenshot goes here
 ![Ui.png](Ui.png)
 
-// Product intro goes here
 Rocky is a **desktop app for managing tasks**, utilizing a **Command Line Interface (CLI)** for swift operations for
 fast typists, while still having a **Graphical User Interface (GUI)** for your task management to be pleasing to the
 eye too!
 
 > No more moving your hands to reach for the mouse, everything can be done with you 10 fingers on the keyboard!
 
--[Quick start](#quick-start)
--[Features](#features)
-    -[Adding a ToDo: `todo`](#adding-a-todo-todo)
-    -[Adding an Event: `event`](#adding-an-event-event)
-    -[Adding a Deadline: `deadline`](#adding-a-deadline-deadline)
-    -[Listing all tasks: `list`](#listing-all-tasks-list)
-    -[Finding tasks: `find`](#finding-tasks-find)
-    -[Marking a task as done: `mark`](#marking-a-task-as-done-mark)
-    -[Marking a task as not done: `unmark`](#marking-a-task-as-not-done-unmark)
-    -[Deleting a task: `delete`](#deleting-a-task-delete)
-    -[Exiting the application: `bye`](#exiting-the-application-bye)
+- [Quick start](#quick-start)
+- [Features](#features)
+  - [Adding a ToDo: `todo`](#adding-a-todo-todo)
+  - [Adding an Event: `event`](#adding-an-event-event)
+  - [Adding a Deadline: `deadline`](#adding-a-deadline-deadline)
+  - [Listing all tasks: `list`](#listing-all-tasks-list)
+  - [Finding tasks: `find`](#finding-tasks-find)
+  - [Marking a task as done: `mark`](#marking-a-task-as-done-mark)
+  - [Marking a task as not done: `unmark`](#marking-a-task-as-not-done-unmark)
+  - [Deleting a task: `delete`](#deleting-a-task-delete)
+  - [Exiting the application: `bye`](#exiting-the-application-bye)
 -[FAQ](#faq)
 
 ---
