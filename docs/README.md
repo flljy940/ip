@@ -18,7 +18,7 @@ eye too!
   - [Marking a task as not done: `unmark`](#marking-a-task-as-not-done-unmark)
   - [Deleting a task: `delete`](#deleting-a-task-delete)
   - [Exiting the application: `bye`](#exiting-the-application-bye)
--[FAQ](#faq)
+- [FAQ](#faq)
 
 ---
 
