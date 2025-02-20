@@ -13,10 +13,12 @@ import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 
 /**
- * Represents a dialog box consisting of an ImageView to represent the speaker's face
+ * An example of a custom control using FXML
+ * This control represents a dialog box consisting of an ImageView to represent the speaker's face
  * and a label containing text from the speaker
  */
 public class DialogBox extends HBox {
@@ -35,9 +37,21 @@ public class DialogBox extends HBox {
             e.printStackTrace();
         }
 
-        dialog.setFont(new Font("Source Code Pro", 16));
+        dialog.setFont(new Font("Verdana", 14));
         dialog.setText(text);
+
         displayPicture.setImage(img);
+
+        // @@author flljy940-reused
+        // Reused from https://stackoverflow.com/questions/20489908/border-radius-and-shadow-on-imageview
+        // with some minor modifications
+        Rectangle clip = new Rectangle(
+                displayPicture.getFitHeight(), displayPicture.getFitHeight()
+        );
+        clip.setArcWidth(displayPicture.getFitWidth());
+        clip.setArcHeight(displayPicture.getFitHeight());
+        displayPicture.setClip(clip);
+        // @@author
     }
 
     /**
