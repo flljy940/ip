@@ -74,87 +74,131 @@ public class Rocky {
      */
     private String handleActionAndRespond(Command action) throws RockyException, InterruptedException {
         String response;
+        try {
+            switch (action.getCmd()) {
+                case "bye":
+                    response = handleBye();
+                    break;
 
-        switch (action.getCmd()) {
-        case "bye":
-            response = "Bye. Hope to see you again soon!";
+                case "list":
+                    response = ui.getListReport(tasks);
+                    break;
 
-            try {
-                storage.saveTasks(tasks);
-            } catch (IOException e) {
-                response += "\nOh... I can't save your tasks to file.";
+                case "find":
+                    response = handleFind(action.getArgs());
+                    break;
+
+                case "mark":
+                    response = handleMark(action.getArgs());
+                    break;
+
+                case "unmark":
+                    response = handleUnmark(action.getArgs());
+                    break;
+
+                case "delete":
+                    response = handleDelete(action.getArgs());
+                    break;
+
+                case "todo":
+                    response = handleTodo(action.getArgs());
+                    break;
+
+                case "deadline":
+                    response = handleDeadline(action);
+                    break;
+
+                case "event":
+                    response = handleEvent(action);
+                    break;
+
+                default:
+                    throw new RockyException("Sry!! I don't know what that means\uD83E\uDD7A");
             }
-            isStopped = true;
-            break;
 
-        case "list":
-            response = ui.getListReport(tasks);
-            break;
+            assert !response.isEmpty(); // Ensures that every valid command returns a non-empty response
+            return response;
+        } catch (RockyException | NumberFormatException e) {
+            return handleError(e);
+        }
+    }
 
-        case "find":
-            String pattern = action.getArgs();
-            response = ui.getListReport(tasks.searchTasks(pattern.toLowerCase()));
-            break;
+    private String handleBye() throws RockyException {
+        String response = "Bye. Hope to see you again soon!";
+        try {
+            storage.saveTasks(tasks);
+        } catch (IOException e) {
+            response += "\nOh... I can't save your tasks to file.";
+        }
+        isStopped = true;
+        return response;
+    }
 
-        case "mark":
-            int mark_idx = Integer.parseInt(action.getArgs()) - 1;
-            tasks.markTask(mark_idx);
-            response = ui.getMarkTaskResponse(tasks.getTask(mark_idx));
-            break;
+    private String handleFind(String pattern) {
+        return ui.getListReport(tasks.searchTasks(pattern.toLowerCase()));
+    }
 
-        case "unmark":
-            int unmark_idx = Integer.parseInt(action.getArgs()) - 1;
-            tasks.unmarkTask(unmark_idx);
-            response = ui.getUnmarkTaskResponse(tasks.getTask(unmark_idx));
-            break;
+    private String handleMark(String arg) throws RockyException {
+        int markIdx = parseIndex(arg);
+        tasks.markTask(markIdx);
+        return ui.getMarkTaskResponse(tasks.getTask(markIdx));
+    }
 
-        case "delete":
-            int dlt_idx = Integer.parseInt(action.getArgs()) - 1;
-            Task deletedTask = tasks.deleteTask(dlt_idx);
-            response = ui.getDeletedTaskResponse(deletedTask, tasks.size());
-            response += ui.getTaskCountReport(tasks.size());
-            break;
+    private String handleUnmark(String arg) throws RockyException {
+        int unmarkIdx = parseIndex(arg);
+        tasks.unmarkTask(unmarkIdx);
+        return ui.getUnmarkTaskResponse(tasks.getTask(unmarkIdx));
+    }
 
-        case "todo":
-            String todoName = action.getArgs();
-            Todo todo = new Todo(todoName);
-            tasks.addTask(todo);
-            response = ui.getNewTaskResponse(todo);
-            response += ui.getTaskCountReport(tasks.size());
-            break;
+    private String handleDelete(String arg) throws RockyException {
+        int dltIdx = parseIndex(arg);
+        Task deletedTask = tasks.deleteTask(dltIdx);
+        String response = ui.getDeletedTaskResponse(deletedTask, tasks.size());
+        response += ui.getTaskCountReport(tasks.size());
+        return response;
+    }
 
-        case "deadline":
-            String deadlineName = action.getArgs();
-            String deadlineDate = action.getKwargs().get("by");
-            Deadline deadline = new Deadline(deadlineName, deadlineDate);
-            tasks.addTask(deadline);
-            response = ui.getNewTaskResponse(deadline);
-            response += ui.getTaskCountReport(tasks.size());
-            break;
+    private String handleTodo(String arg) {
+        Todo todo = new Todo(arg);
+        tasks.addTask(todo);
+        return ui.getNewTaskResponse(todo) + ui.getTaskCountReport(tasks.size());
+    }
 
-        case "event":
-            String eventName = action.getArgs();
-            String eventTime = action.getKwargs().get("at");
-            if (eventTime == null) {
-                throw new RockyException("Missing event time. Usage: event <description> /at <d/M/yyyy> <HHmm-HHmm>");
-            }
-            String eventDate = eventTime.substring(0, eventTime.indexOf(" "));
-            String timeRange = eventTime.substring(eventTime.indexOf(" ") + 1);
-            Event event = new Event(eventName, eventDate, timeRange);
-            tasks.addTask(event);
-            response = ui.getNewTaskResponse(event);
-            response += ui.getTaskCountReport(tasks.size());
-            break;
+    private String handleDeadline(Command action) {
+        String deadlineName = action.getArgs();
+        String deadlineDate = action.getKwargs().get("by");
+        Deadline deadline = new Deadline(deadlineName, deadlineDate);
+        tasks.addTask(deadline);
+        return ui.getNewTaskResponse(deadline) + ui.getTaskCountReport(tasks.size());
+    }
 
-        default:
-            throw new RockyException("Sry!! I don't know what that means\uD83E\uDD7A");
+    private String handleEvent(Command action) throws RockyException {
+        String eventName = action.getArgs();
+        String eventTime = action.getKwargs().get("at");
+
+        if (eventTime == null) {
+            throw new RockyException("Missing event time. Usage: event <description> /at <d/M/yyyy> <HHmm-HHmm>");
         }
 
-        // All valid command handler should give a response
-        // Else, an exception should have been raised
-        assert !response.isEmpty();
+        String eventDate = eventTime.substring(0, eventTime.indexOf(" "));
+        String timeRange = eventTime.substring(eventTime.indexOf(" ") + 1);
+        Event event = new Event(eventName, eventDate, timeRange);
+        tasks.addTask(event);
+        return ui.getNewTaskResponse(event) + ui.getTaskCountReport(tasks.size());
+    }
 
-        return response;
+    // Helper method to handle index parsing
+    private int parseIndex(String arg) throws RockyException {
+        try {
+            return Integer.parseInt(arg) - 1;
+        } catch (NumberFormatException e) {
+            throw new RockyException("Invalid index: " + arg);
+        }
+    }
+
+    // General error handling for invalid commands
+    private String handleError(Exception e) {
+        return "Error: " + e.getMessage();
     }
 
     /**
