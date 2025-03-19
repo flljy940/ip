@@ -5,7 +5,7 @@ package rocky.task;
  */
 public class Todo extends Task {
     /**
-     * Instantiate Todo object
+     * Instantiates Todo object
      *
      * @param todo name of Todo
      */
@@ -14,7 +14,7 @@ public class Todo extends Task {
     }
 
     /**
-     * Instantiate Todo object with status
+     * Instantiates Todo object with status
      *
      * @param todo name of Todo
      * @param isDone status of completion

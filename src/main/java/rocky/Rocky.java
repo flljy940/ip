@@ -52,7 +52,7 @@ public class Rocky {
     String introduction = "Hello, I'm Rocky\n" + "What can I do for you?";
 
     /**
-     * Construct a Rocky instance
+     * Constructs a Rocky instance
      *
      * @param filename File to load and save Tasks
      */

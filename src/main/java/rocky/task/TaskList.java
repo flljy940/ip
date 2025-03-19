@@ -42,7 +42,7 @@ public class TaskList {
     }
 
     /**
-     * Filter TaskList for  Tasks whose names contain the search string
+     * Filters TaskList for Tasks whose names contain the search string
      *
      * @param search substring to search for
      * @return filtered TaskList
